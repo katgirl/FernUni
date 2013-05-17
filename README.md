@@ -1,8 +1,6 @@
-FernUni
+FernUni - Seminar 21817 „IT-Sicherheit“
 =========
 
-Seminar 21817 „IT-Sicherheit“
-=
 In diesem Seminar werden Thema rund um den Bereich Sicherheit in der Informationstechnologie behandelt. 
 Im Mittelpunkt stehen dabei lokale Netze und das Internet. Dabei sollen nicht nur technische Aspekte, sondern auch gesetzliche und gesellschaftliche Aspekte beleuchtet werden. 
 So sind Technologien zur Absicherung von Netzwerken ebenso Thema, wie Aspekte des Datenschutzes und der Privatssphäre etwa in Hinblick auf soziale Netzwerke und Cloud Computing. 
