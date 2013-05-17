@@ -8,6 +8,17 @@ So sind Technologien zur Absicherung von Netzwerken ebenso Thema, wie Aspekte de
 Der Teilnehmer fertigt eine etwa 25 seitige Ausarbeitung und Folien für einen etwa 25minütigen Vortrag zu einem gegebenen Thema an. Die Teilnahme an allen Seminartagen (voraussichtlich 1 bis 2) ist Pflicht. Je nach Teilnehmerzahl sind Änderungen am Ablauf vorbehalten.
 
 
+Aspekte der Sicherheit in der Programmierung 
+=======
+
+Sicherer Code, Robuste Programmierung - Gegen
+was muss Code geschützt werden? Welchen Schaden kann Code anrichten? Warum ist es so
+schwer, wenn nicht unmöglich, ein korrektes Programm zu schreiben? Sicherheitsrelevante
+Programmierfehler (z.B. bzgl. Buffer Overflow), Angriffsszenarien, Techniken, Technologien,
+Lösungen, Backdoors (evtl. sog. "Easter-Eggs" als Beispiel zeigen)
+
+
+
 Namenskonventionen für Dokumente
 =
 
