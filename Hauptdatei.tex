@@ -110,13 +110,13 @@
 %\makeglossary
 
 % Abkürzungsverzeichnis TeTEX Version
-% \usepackage[german]{nomencl}
-% \makenomenclature
-% %\makeglossary
-% \renewcommand{\nomname}{Abkürzungsverzeichnis}
-% \setlength{\nomlabelwidth}{.25\hsize}
-% \renewcommand{\nomlabel}[1]{#1 \dotfill}
-% \setlength{\nomitemsep}{-\parsep}
+\usepackage[german]{nomencl}
+\makenomenclature
+%\makeglossary
+\renewcommand{\nomname}{Abkürzungsverzeichnis}
+\setlength{\nomlabelwidth}{.25\hsize}
+\renewcommand{\nomlabel}[1]{#1 \dotfill}
+\setlength{\nomitemsep}{-\parsep}
 
 % Disable single lines at the start of a paragraph (Schusterjungen)
 \clubpenalty = 10000
@@ -148,30 +148,79 @@
 % Sperrvermerk
 %~ \input{sperrvermerk}
 
-% Einleitung / Abstract
-\include{abstract}
+% Eidesstattliche Erklärung
+\addcontentsline{toc}{section}{Eidesstattliche Erklärung}
+\include{erklaerung}
 
 % einfacher Zeilenabstand
-\singlespacing
+%\singlespacing
 
 % Inhaltsverzeichnis anzeigen
 \newpage
 \tableofcontents
 
-% das Abbildungsverzeichnis
+% das Abkürzungsverzeichnis
 \newpage
-% Abbildungsverzeichnis soll im Inhaltsverzeichnis auftauchen
-\addcontentsline{toc}{section}{Abbildungsverzeichnis}
-% Abbildungsverzeichnis endgueltig anzeigen
-\listoffigures
+% Abkürzungsverzeichnis soll im Inhaltsverzeichnis auftauchen
+\addcontentsline{toc}{section}{Abkürzungsverzeichnis}
+% das Abkürzungsverzeichnis entgültige Ausgeben
+\fancyhead[L]{Abkürzungsverzeichnis} %Kopfzeile links
+\input{abkuerzungen}
+\printnomenclature
 
-% das Tabellenverzeichnis
+% Definiert Stegbreite bei zweispaltigem Layout
+\setlength{\columnsep}{25pt}
+
+%%%%%%% EINLEITUNG %%%%%%%%%%%%
+%\twocolumn
 \newpage
-% Abbildungsverzeichnis soll im Inhaltsverzeichnis auftauchen
-\addcontentsline{toc}{section}{Tabellenverzeichnis}
-% \fancyhead[L]{Abbildungsverzeichnis / Abkürzungsverzeichnis} %Kopfzeile links
-% Abbildungsverzeichnis endgueltig anzeigen
-\listoftables
+\fancyhead[L]{\nouppercase{\leftmark}} %Kopfzeile links
+
+% 1,5 facher Zeilenabstand
+\onehalfspacing
+
+% einzelne Kapitel
+\input{einleitung}
+
+% Kirsten
+\input{9053522/programmierfehler}
+\input{9053522/senario_fuer_angriffe}
+\input{9053522/sicherer_code}
+
+\input{fazit}
+
+%~ \input{beispiel}
+
+\onecolumn
+% einfacher Zeilenabstand
+\singlespacing
+% Literaturliste soll im Inhaltsverzeichnis auftauchen
+\newpage
+\addcontentsline{toc}{section}{Literaturverzeichnis}
+% Literaturverzeichnis anzeigen
+\renewcommand\refname{Literaturverzeichnis}
+\bibliography{Hauptdatei}
+
+%% Index soll Stichwortverzeichnis heissen
+% \newpage
+% % Stichwortverzeichnis soll im Inhaltsverzeichnis auftauchen
+% \addcontentsline{toc}{section}{Stichwortverzeichnis}
+% \renewcommand{\indexname}{Stichwortverzeichnis}
+% % Stichwortverzeichnis endgueltig anzeigen
+% \printindex
+
+
+
+% Abstract
+\newpage
+\fancyhead[L]{Abstract} %Kopfzeile links
+\include{abstract}
+
+% evtl. Anhang
+\newpage
+\addcontentsline{toc}{section}{Anhang}
+\fancyhead[L]{Anhang} %Kopfzeile links
+\input{anhang}
 
 %% WORKAROUND für Listings
 %\makeatletter% --> De-TeX-FAQ
@@ -200,63 +249,25 @@
 \lstlistoflistings
 %%%%
 
-% das Abkürzungsverzeichnis
+
+% das Abbildungsverzeichnis
 \newpage
-% Abkürzungsverzeichnis soll im Inhaltsverzeichnis auftauchen
-\addcontentsline{toc}{section}{Abkürzungsverzeichnis}
-% das Abkürzungsverzeichnis entgültige Ausgeben
-\fancyhead[L]{Abkürzungsverzeichnis} %Kopfzeile links
-\input{abkuerzungen}
-\printnomenclature
+% Abbildungsverzeichnis soll im Inhaltsverzeichnis auftauchen
+\addcontentsline{toc}{section}{Abbildungsverzeichnis}
+\fancyhead[L]{Abbildungsverzeichnis} %Kopfzeile links
+% Abbildungsverzeichnis endgueltig anzeigen
+\listoffigures
 
-% Definiert Stegbreite bei zweispaltigem Layout
-\setlength{\columnsep}{25pt}
-
-%%%%%%% EINLEITUNG %%%%%%%%%%%%
-%\twocolumn
+% das Tabellenverzeichnis
 \newpage
-\fancyhead[L]{\nouppercase{\leftmark}} %Kopfzeile links
-
-% 1,5 facher Zeilenabstand
-\onehalfspacing
-
-% einzelne Kapitel
-\input{einleitung}
-
+% Abbildungsverzeichnis soll im Inhaltsverzeichnis auftauchen
+\addcontentsline{toc}{section}{Tabellenverzeichnis}
+\fancyhead[L]{Tabellenverzeichnis} %Kopfzeile links
+% \fancyhead[L]{Abbildungsverzeichnis / Abkürzungsverzeichnis} %Kopfzeile links
+% Abbildungsverzeichnis endgueltig anzeigen
+\listoftables
 
 
-\input{fazit}
-
-%~ \input{beispiel}
-
-\onecolumn
-% einfacher Zeilenabstand
-\singlespacing
-% Literaturliste soll im Inhaltsverzeichnis auftauchen
-\newpage
-\addcontentsline{toc}{section}{Literaturverzeichnis}
-% Literaturverzeichnis anzeigen
-\renewcommand\refname{Literaturverzeichnis}
-\bibliography{Hauptdatei}
-
-%% Index soll Stichwortverzeichnis heissen
-% \newpage
-% % Stichwortverzeichnis soll im Inhaltsverzeichnis auftauchen
-% \addcontentsline{toc}{section}{Stichwortverzeichnis}
-% \renewcommand{\indexname}{Stichwortverzeichnis}
-% % Stichwortverzeichnis endgueltig anzeigen
-% \printindex
-
-\onehalfspacing
-% evtl. Anhang
-\newpage
-\addcontentsline{toc}{section}{Anhang}
-\fancyhead[L]{Anhang} %Kopfzeile links
-\input{anhang}
-
-% Eidesstattliche Erklärung
-\addcontentsline{toc}{section}{Eidesstattliche Erklärung}
-\include{erklaerung}
 
 % leere Abschlussseite
 %~ \newpage
