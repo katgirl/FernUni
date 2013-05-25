@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 FernUni - Seminar 21817 „IT-Sicherheit“
 =========
 
@@ -41,3 +42,6 @@ Bei Teamarbeiten sind entsprechend beide Matrikelnummern und beide Namen durch K
 · 21817-folien01-9876542,1234567-mueller,meyer-virtual_private_networks.pdf
 
 Dokumente, die dieser Namenskonvention nicht genügen, können nicht bearbeitet werden!
+=======
+FernUni
+>>>>>>> remotes/origin/master
