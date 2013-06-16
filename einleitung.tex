@@ -1,19 +1,47 @@
 \section{Einleitung}\label{einleitung}
 
-In kommerziellen Softwareprojekten arbeitet ein geschlossener Kreis an
-Personen an dem Code. Dieser wird dann in der Regel vor Veröffentlichung durch 
-entsprechende Experten geprüft und freigegeben.
-\\
-Bei OpenSource Projekten, wo der der Quellcode frei zugänglich ist und eine Mitarbeit 
-auch gewünscht ist, kann hingegen jeder der programmieren kann oder auch denkt den Code
-erweitern und eigene Module entwickeln.
-\\
-Bei vielen Modulen wird dabei oft die API ignoriert oder es schleichen sich schnell 
-kritische Sicherheitlücken ein.
-\\
-In der nachfolgenden Hausarbeit geht es um die Sicherheit in der Programmierung. 
-Dabei soll auf typische Fehler eingegangen werden und anhand von unterschiedlichen 
-Angriffsszenarien, Techniken und Technologien gezeigt werden wo die häufigsten 
-Schwachstellen liegen und wie man diese ganz einfach beseitigen kann.
-Ausgangspunkt ist die Modulare Objekt orientierter Programmierung, 
-die heute in fast allen Softwareprojekten zur Anwendung kommt.\\
+
+% Vorschlag, wie lassen uns auf nichts festnagelen sondern halten die Einleitung generisch :)
+
+%In kommerziellen Softwareprojekten arbeitet ein geschlossener Kreis an
+%Personen an dem Code. Dieser wird dann in der Regel vor Veröffentlichung durch 
+%entsprechende Experten geprüft und freigegeben.
+%\\
+%Bei OpenSource Projekten, wo der der Quellcode frei zugänglich ist und eine Mitarbeit 
+%auch gewünscht ist, kann hingegen jeder der programmieren kann oder auch denkt den Code
+%erweitern und eigene Module entwickeln.
+%\\
+%Bei vielen Modulen wird dabei oft die API ignoriert oder es schleichen sich schnell 
+%kritische Sicherheitlücken ein.
+%\\
+%In der nachfolgenden Hausarbeit geht es um die Sicherheit in der Programmierung. 
+%Dabei soll auf typische Fehler eingegangen werden und anhand von unterschiedlichen 
+%Angriffsszenarien, Techniken und Technologien gezeigt werden wo die häufigsten 
+%Schwachstellen liegen und wie man diese ganz einfach beseitigen kann.
+%Ausgangspunkt ist die Modulare Objekt orientierter Programmierung, 
+%die heute in fast allen Softwareprojekten zur Anwendung kommt.\\
+
+% ToDo: In der Einleitung die Vielschichtigkeit der ganzen Thematik betonen, 
+% sichere Programmierug hängt von vielen Faktoren ab, z.B.
+%
+% Qualität des Codereviews u.U. belegen, dass Opensource-Entwicklungen besser/schlecher/gleich im Vergleich mit 
+% mit "komerziellen" Entwicklungen abschneiden
+%
+% Den Begriff "kommerziell" im Kontext dieser Arbeit klar abgrenzen
+
+Betrachtet man die Aspekte der sicheren Programmierung, so muss man sich im Vorfeld einer Betrachtung zunächst über die grundlegenden  Risiken bei der Entwicklung von Softwarelösungen im Klaren sein. Generell existieren im Kontext der Informationstechnik folgende drei primäre Schutzziele, die bei der Entwicklung von Softwarelösungen berücksichtigt und eingehalten werden müssen:
+
+\begin{itemize}
+      \item\textbf{Vertraulichkeit}\\
+ 	   Eine Softwarelösung führt eine ausreichende Überprüfung von Benutzerberechtigungen durch und erlaubt nur legitimen Benutzern den Zugriff auf (vertrauliche) Daten. Die Verdaulichkeit von Daten hat implizit rechtliche Auswirkungen und ist in vielen Ländern durch entsprechende nationale Gesetze geregelt (z.B. Bundesdatenschutzgesetz). Neben rechtlichen Auswirkungen hat die Vertraulichkeit von Daten im Hinblick auf wirtschaftliche Interessen (z.B. Diebstahl von Forschungsergebnissen) einen sehr hohen Stellenwert.
+	  
+	  \item\textbf{Integrität}\\
+	   Eine Softwarelösung verhindert eine Manipulation von Daten oder stellt Methoden (z.B. Hashwertbildung) zu Feststellung einer unerlaubten Modifikation der Daten bereit.
+	  
+	  \item\textbf{Verfügbarkeit} 
+	   Eine Softwarelösung muss funktionieren, auch wenn ein Fehler- oder Problemfall auftritt. Die Verfügbarkeit ist aus wirtschaftlicher Sicht analog zur Vertraulichkeit zu bewerten. Fällt in einem Unternehmen eine zentrale Systemkomponente (z.B. SAP-System) aufgrund eines Softwarefehlers aus, kann dies zum vollständigen erliegen eines Geschäftsprozesses führen und in kürzester Zeit einen immensen monetären Schaden verursachen.
+\end{itemize}
+
+Da zur Wahrung der oben aufgeführten Schutzziele im Umfeld der Softwareentwicklung vielfältige Lösungsansätze existieren, würde eine detaillierte Betrachtungen der verschiedenen Entwicklungsparadigmen, Implementierungsverfahren und Frameworks den Rahmen dieser Ausarbeitung bei weitem überschreiten. Aus diesem Grund betrachten die Verfasser ausgewählte Entwicklungsprozesse und Konzepte, die eine sichere Entwicklung von Software unterstützen Daneben werden verschiedene Angriffs- und Bedrohungsszenarien einschließlich möglicher Gegenmaßnahmen aufgezeigt.
+
+
