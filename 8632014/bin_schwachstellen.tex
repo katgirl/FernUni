@@ -1,6 +1,4 @@
-\subsection{Binäre Anwendungen}	
-
-\subsubsection{Buffer-Overflow Schwachstellen}	
+\subsection{Buffer-Overflow Schwachstellen}	
 
 Buffer-Overflows Schwachstellen entstehen im Regelfall durch die Verwendung von Programmiersprachen, die es einem Entwickler ermöglichen, allozierte Speicherbereiche unkontrolliert zu überschreiben.
 \par\medskip 
@@ -8,7 +6,7 @@ Als ein typischer Vertreter für eine Programmiersprache die potentiell für Buf
 \\\\
 \textbf{Beispiel: Stack-Overflow (Setup: x64-System, Linux, gcc-4.8.1)}
 \\
-Der C-Code im folgenden Beispiel erwartet die Eingabe einer beliebigen Zeichenkette mit einer maximalen Länge von 64 Zeichen als Kommandozeilenparameter. Die im Code verwendete C-Funktion \texttt{strcpy()} gilt als unsicher, da keine Längenprüfung des zu kopierenden Strings vorgenommen wird. Mithilfe der \texttt{strcpy()}-Funktion ist es später möglich, die Rücksprungadresse der \texttt{go()}-Funktion so zu modifizieren, dass die im Code nicht aufgerufene Funktion \texttt{pwnd()} ausgeführt wird.
+Der C-Code im folgenden Beispiel erwartet die Eingabe einer beliebigen Zeichenkette mit einer maximalen Länge von 63 Zeichen zzgl. des String-Ende-Zeichens als Kommandozeilenparameter. Die im Code verwendete C-Funktion \texttt{strcpy()} gilt als unsicher, da keine Längenprüfung des zu kopierenden Strings vorgenommen wird. Mithilfe der \texttt{strcpy()}-Funktion ist es später möglich, die Rücksprungadresse der \texttt{go()}-Funktion so zu modifizieren, dass die im Code nicht aufgerufene Funktion \texttt{pwnd()} ausgeführt wird.
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 #include <string.h>
@@ -201,3 +199,117 @@ Dabei werden insgesamt \SI{72}{Byte} mit dem Zeichen \texttt{A} überschrieben u
 \textbf{Hinweis:}
 
 Wird zur Nachstellung des Beispiels ein veralteter \texttt{gcc}-Compiler in der Version 3.x\footnote{http://www.trapkit.de/papers/gcc\_stack\_layout\_v1\_20030830.pdf} verwendet, ist es möglich, dass dieses Beispiel nicht funktioniert!
+
+\subsection{Maßnahmen zur Behebung von Overflow-Schwachstellen}
+
+In den folgenden Abschnitten werden Möglichkeiten beschrieben, wie man typische Overflow-Schwachstellen innerhalb eines Quelltextes aufspüren und beheben kann. Die folgend gezeigten Beispiele beziehen sich auf das im vorhergehenden Abschnitt beschriebe Quellcodebeispiel.
+
+\subsubsection{Lexikalische Quellcode-Überprüfung}
+
+Für eine lexikalische Überprüfung des Quellcodes können eine Vielzahl von Tools eingesetzt werden. Die Methoden reichen dabei von einer rudimentären grep-Analyse, über komplexe und meist kommerzielle statische Quellcodescanner-Lösungen (z.B. Fortify oder Checkmarx) bis hin zu Lösungen, die den Quellcode einer Anwendung sowohl statisch analysieren und zur Ausführung bringen um Laufzeitfehler erkennen zu können (z.B. Seeker)
+Eine Liste von potentiell unsicheren C-Funktionen und deren „sicheren“ Derivate sind in den folgenden beiden, vom ISO-Komitee herausgegeben, Dokumenten zu finden:
+
+\begin{itemize}
+      \item TR 24731-1\footnote{http://www.open-std.org/JTC1/SC22/WG14/www/docs/n1225.pdf}    
+      \item TR 24731-2\footnote{http://www.open-std.org/JTC1/SC22/WG14/www/docs/n1337.pdf}
+\end{itemize}
+	
+Die beiden Dokumente werden in Foren und Fachkreisen kontrovers diskutiert, dennoch ist das Dokument TR 24731-1 in die Entwicklung der Microsofts Standard-C Bibliothek eingeflossen. Weiterhin wurden Empfehlungen aus den Dokumenten, wie z.B. die Entfernung der im C99-Standard noch enthaltenen \texttt{gets()}-Funktion, im neuen C-Standard (C11) umgesetzt.
+Im Folgenden sollen nur zwei Beispiele für eine lexikalische Suche nach unsicheren Funktionen am Quellcode aus dem vorhergehenden Abschnitt vorgenommen werden:
+\par\medskip 
+Durch \texttt{grep()} werden sämtliche Zeilen des Quellcodebeispiels ausgegeben, in denen die Funktionen \texttt{strcpy()} und \texttt{gets()} aufgerufen werden. Bei diesem Vorgehen obliegt es dem Entwickler, diese Stellen im Quellcode eingehend auf Schwachstellen zu untersuchen und die unsicheren Funktionen durch die empfohlen Funktionsderivate zu ersetzen.
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
+[florian@audit exploit]$ grep -nE 'strcpy|gets' *.c
+poc.c:9:        strcpy(data,input);
+\end{lstlisting}
+
+Es ist abzusehen, dass bei umfangreichen Quelltextanalysen eine solch rudimentäre Analyse zu einer sehr hohen "False-Postives“"-Rate führt. Aufgrund dieser Tatsache wurden lexikalische Quellcodescanner mit Ziel entwickelt, die Effizienz der Methode zu verbessern.
+
+Effiziente Quellcodescanner reduzieren die Rate der gefundenen "False-Postives" beispielsweise durch die Verwendung interner Datenbanken, die  potentiell unsichere Quellcodefragmente mit in der Datenbank hinterlegen Codefragmenten abgleichen. Dabei wird weiterhin versucht, den Entwickler durch entsprechende Kommentare zu einer möglicherweise gefundenen Schwachstelle zu unterstützen. Ein Quellcodescanner sollte weder "False-Postives" noch "False-Negatives" produzieren. Dabei sollten "False Negatives" nach Möglichkeit nie vorkommen, da diese im Gegensatz zu "False Positives" zu Sicherheitsproblemen führen können.
+
+Im Folgenden soll der frei verfügbare Quellcodescanner RATS\footnote{https://www.fortify.com/downloads2/public/rats-2.3-2.tar.gz} (Rough Auditing Tool for Security) vorgestellt werden. RATS ist in der Lage, C-, C++-, PHP-, Perl- und Python-Quelltext nach sicherheitsrelevanten Fehlern zu untersuchen. Schwerpunktmäßig berücksichtigt RATS dabei Buffer-Overflow- und Race-Condition-Schwachstellen.
+
+[1] bietet eine detaillierte Einführung in die grundlegenden Prinzipien der sicheren Softwareentwicklung sowie in die Verwendung von RATS.
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
+[florian@audit exploit]$ rats -i --resultsonly  *.c
+poc.c:8: High: fixed size local buffer
+Extra care should be taken to ensure that character arrays that are allocated
+on the stack are used safely.  They are prime targets for buffer overflow
+attacks.
+
+poc.c:9: High: strcpy
+Check to be sure that argument 2 passed to this function call will not copy
+more data than can be handled, resulting in a buffer overflow.
+\end{lstlisting}
+
+Bei der Ausgabe von RATS wird ein Nutzer gleich zu Beginn auf die Verwendung von Variablen mit fixer Puffergröße aufmerksam gemacht. Darüber hinaus wird darauf hingewiesen, dass man diese Puffer in Bezug auf potentielle Buffer-Overflow-Schwachstellen überprüfen sollte.
+
+Im weiteren Verlauf der Ausgabe wird auf die Verwendung der unsicheren  \texttt{strcpy()}-Funktion und auf deren sichere Implementierung unter Berücksichtigung der benötigten Speichergröße des Zielpuffers hingewiesen.
+
+\subsubsection{Semantische Quellcode-Überprüfungen}
+
+Es existiert neben der rein lexikalischen Quelltextanalyse ein weiteres Analyseverfahren zur statischen Codeanalyse. Eine semantische Quellcode Analyse erlaubt es, die lexikalischen Bedeutungen innerhalb des Quelltextes in Bezug auf ihren Bedeutungszusammenhang auszuwerten. Dabei bedient sich diese Analysemethode einer Datenflussanalyse und ist somit in der Lage, detaillierte Rückschlüsse über laufende Vorgänge innerhalb eines Programms zuzulassen.
+
+\minisec{Grundlegende Überprüfungen mit dem Compiler}
+
+Bereits ein Compiler verfügt bereits meist über grundlegende Techniken um mindestens eine lexikalische und zusätzliche eine semantische Analyse des Quellcodes durchzuführen. Der GNU C Compiler verfügt über verschiedene Optionen, die eine Fehlervermeidung oder eine Fehlersuche unterstützen.
+
+Wird bei Aufruf des GNU C Compilers die Option \texttt{–Wall} angegeben, veranlasst dies den Compiler dazu, eine Überprüfung des Quelltextes während des Kompilierens durchzuführen. Um die Meldungen des Compiler offensichtliche zu gestalten, wir die \texttt{main()}-Funktion durch eine folgende Codezeilen ergänzt:
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
+int main(int argc, char *argv[]) {
+    [...]
+    char array[8];
+    printf("String eingeben: ");
+    gets(array);
+    printf ("Input-String: %s", array);
+}
+\end{lstlisting}
+
+Wird der Quellcode jetzt mit der –Wall Funktion kompiliert erhält man folgende Compiler-Warnungen:
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
+[florian@audit exploit]$ gcc -Wall poc.c -o poc
+poc.c: In function main:
+poc.c:29:2: warning: gets is deprecated (declared at /usr/include/stdio.h:638) [-Wdeprecated-declarations]
+  gets(array);
+poc.c:31:1: warning: control reaches end of non-void function [-Wreturn-type]
+}
+\end{lstlisting}
+
+Der GNU C Compiler macht den Entwickler darauf aufmerksam, dass er zum einen die unsichere und veraltete \texttt{gets()}-Funktion verwendet und darauf, dass die \texttt{main()}-Funktion über keinen Return-Wert am Ende verfügt.
+
+Anhand dieses Beispiels ist ersichtlich, dass der Compiler zwar in der Lage ist, Sicherheitsüberprüfungen auf lexikalischer und semantischer Ebene durchzuführen jedoch bei Weitem offensichtlich nicht dazu in der Lage ist, unsichere Funktionsaufrufe wie z.B. den Aufruf der \texttt{strcpy()}-Funktion innerhalb der \texttt{go()}-Funktion zu erkennen.
+
+\minisec{Erweiterte Überprüfung mit Splint}
+
+Splint\footnote{http://www.splint.org/} ist ein statischer Quellcodescanner der in der Lage ist, eine weitaus detaillierte semantische Analyse als der GNU C Compiler vorzunehmen.
+
+Splint ist in der Lage sogenannte LINT\footnote{http://en.wikipedia.org/wiki/Lint\_(software)}-Überprüfungen durchzuführen. Zu diesen Überprüfungen gehört beispielsweise die Suche nach Endlosschleifen, falschen Deklarationen oder ignorierten Rückgabewerten.
+
+Im folgenden Beispiel wird der Beispielquelltext durch die Angabe des Parameters \texttt{+bounds-write} auf potentiellen Schwachstellen hin untersucht, die aufgrund eines schreibenden Speicherzugriffs zu einem Buffer-Overflow führen können.
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
+[florian@audit exploit]$ splint +bounds-write poc.c
+Splint 3.1.2 --- 14 Sep 2011
+
+poc.c: (in function go)
+poc.c:9:2: Possible out-of-bounds store: strcpy(data, input)
+    Unable to resolve constraint:
+    requires maxRead(input @ poc.c:9:14) <= 63
+     needed to satisfy precondition:
+    requires maxSet(data @ poc.c:9:9) >= maxRead(input @ poc.c:9:14)
+     derived from strcpy precondition: requires maxSet(<parameter 1>) >=
+    maxRead(<parameter 2>)
+  A memory write may write to an address beyond the allocated buffer. (Use
+  -boundswrite to inhibit warning)
+poc.c: (in function main)
+poc.c:25:2: Return value (type int) ignored: go(argv[1])
+  Result returned by function call is not used. If this is intended, can cast
+  result to (void) to eliminate message. (Use -retvalint to inhibit warning)
+  [...]
+\end{lstlisting}
+
+Der Scanner erkennt im Gegensatz zum GNU C Compiler, dass es durch den Aufruf der \texttt{strcpy()}-Funktion zu einem möglichen Speicherüberlauf kommen könnte. Durch die Verwendung von Annotationen kann man 
