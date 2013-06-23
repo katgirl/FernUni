@@ -312,4 +312,64 @@ poc.c:25:2: Return value (type int) ignored: go(argv[1])
   [...]
 \end{lstlisting}
 
-Der Scanner erkennt im Gegensatz zum GNU C Compiler, dass es durch den Aufruf der \texttt{strcpy()}-Funktion zu einem möglichen Speicherüberlauf kommen könnte. Durch die Verwendung von Annotationen kann man 
+Der Scanner erkennt im Gegensatz zum GNU C Compiler, dass es durch den Aufruf der \texttt{strcpy()}-Funktion zu einem möglichen Speicherüberlauf kommen könnte. Durch die Verwendung von Annotationen innerhalb des zu prüfenden Quellcodes können vom Entwickler neben programmatischen Fehlern auch logische Fehler entdeckt werden. Beispielsweise können durch  Annotationen zwingend zu erfüllende Bedingungen festgelegt werden, die durch Splint geprüft werden, bevor eine bestimmte Funktion aufgerufen werden kann.
+
+\subsubsection{Programmanalyse zur Programmlaufzeit}
+
+Neben den beschreiben Möglichkeiten zur statischen Quellcodeanalyse besteht darüber hinaus die Möglichkeit, ein Programm zur Laufzeit auf Schwachstellen zu überwachen bzw. zu untersuchen, um gezielt Overflow-Schwachstellen die erst zur Programmlaufzeit entstehen ausfindig zu machen.
+
+Ein mögliches Beispiel für eine potentielle Overflow-Schwachstelle die erst während der Laufzeit eines Programmes auftreten kann, ist der Aufruf der C-Funktion \texttt{malloc()} die erst zur Laufzeit eines Programms Speicher im Heap alloziert.
+
+Ein typisches Tool zur Programmanalyse zur Laufzeit ist ein Debugger. Mit einem Debugger kann man Programme zeilenweise abarbeiten und dabei den aktuellen Zustand bzw. den Wert von Variablen analysieren. Die Qualität der Überprüfung des Programmcodes unter Zuhilfenahme eines Debuggers hängt stark von der Fachexpertise eines Entwicklers ab. Für umfangreiche Analyse von Programmen eignet sich ein Debugger nur bedingt.
+
+Aus diesem Grund existieren spezielle Tools, die zur dynamischen Analyse von umfangreicheren Programmen oder Quelltexten eingesetzt werden können. Im Folgenden soll die Werkzeugsammlung Valgrind vorgestellt werden.
+
+\minisec{Programmanalyse zur Laufzeit mit Valgrind}
+
+Valgrind stellt eine Werkzeugsammlung zur dynamischen Fehleranalyse zur Programmlaufzeit dar. Dabei wird ein zu analysierendes Programm nicht auf der nativen Host-CPU, sondern innerhalb einer virtuellen Umgebung ausgeführt.
+Vagrind übersetzt das Programm zu diesem Zweck in einen plattformunabhängigen Byte-Code, in den sogenannten Vex IR. Nach der Konvertierung des Programms in den Byte-Code können die verschiedenen Valgrind-Tools auf das zu analysierenden Programm angewendet werden.
+
+Die Konvertierung des nativen Programms nach Vex IR reduziert die Ausführungsgeschwindigkeit eines Programmes um ein vielfaches, ermöglicht aber gleichzeitig eine detaillierte Analyse  benötigter (Speicher-)Ressourcen oder einzelner CPU-Register.
+
+Für das folgende Beispiel wird die \texttt{go()}-Funktion um zwei \texttt{malloc()}-Funktionsaufrufe erweitert:
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
+int go(char *input) {
+    char *data;	
+    data  = (char *)malloc(sizeof(char)*8);
+    data = (char *)malloc(sizeof(char)*64);
+
+    strcpy(data,input);
+    [...]
+}
+\end{lstlisting}
+
+Anschließend wird das Programm kompiliert und mit Valgrind aufgerufen, als Startparameter wird 84-mal der Buchstabe A übergeben. Dabei kommt es, wie aus den vorhergehen Beispielen bereits bekannt, zu einem Buffer-Overflow:
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
+valgrind --tool=memcheck --leak-check=full ./poc `perl -e 'print "A"x84'`
+\end{lstlisting}
+
+Valgrind überprüft nun das Programm \texttt{poc} zur Laufzeit und generiert folgende Ausgabe:
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
+[...]
+==10902== Invalid write of size 1
+==10902==    at 0x4C2CBB2: __GI_strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10902==    by 0x40069A: go (poc2.c:14)
+==10902==    by 0x400703: main (poc2.c:31)
+==10902==  Address 0x51e00e4 is 20 bytes after a block of size 64 alloc'd
+==10902==    at 0x4C2C04B: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+[...]
+==10902== HEAP SUMMARY:
+==10902==     in use at exit: 8 bytes in 1 blocks
+==10902==   total heap usage: 2 allocs, 1 frees, 72 bytes allocated
+==10902==
+==10902== 8 bytes in 1 blocks are definitely lost in loss record 1 of 1
+==10902==    at 0x4C2C04B: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10902==    by 0x400675: go (poc2.c:9)
+==10902==    by 0x400703: main (poc2.c:31)
+[...]
+\end{lstlisting}
+
+Wie der Ausgabe zu entnehmen ist, erkennt Valgrind zum einen, dass es beim Aufruf der \texttt{strcpy()}-Funktion zu einem Überlauf von \SI{20}{Byte} kommt und zum anderen, dass der \SI{8}{Byte} große (reservierte) Speicherblock aufgrund der fehlenden \texttt{free()}-Funktion nicht mehr freigeben wird und es zu einem unnötigen Verbrauch von Heap-Speicher kommt.
