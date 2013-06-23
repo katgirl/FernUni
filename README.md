@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 FernUni - Seminar 21817 „IT-Sicherheit“
 =========
 
@@ -21,7 +20,7 @@ Lösungen, Backdoors (evtl. sog. "Easter-Eggs" als Beispiel zeigen)
 
 
 Namenskonventionen für Dokumente
-=
+=====
 
 Die Ausarbeitungen sind grundsätzlich als pdf-Dokument einzureichen. Die Dateinamen der per E-Mail eingeschickten Ausarbeitungen bzw. Folien müssen folgender Namenskonvention genügen:
 
@@ -42,6 +41,3 @@ Bei Teamarbeiten sind entsprechend beide Matrikelnummern und beide Namen durch K
 · 21817-folien01-9876542,1234567-mueller,meyer-virtual_private_networks.pdf
 
 Dokumente, die dieser Namenskonvention nicht genügen, können nicht bearbeitet werden!
-=======
-FernUni
->>>>>>> remotes/origin/master
