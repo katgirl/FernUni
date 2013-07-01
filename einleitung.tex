@@ -1,7 +1,7 @@
 \section{Einleitung}\label{einleitung}
 
 
-% Vorschlag, wie lassen uns auf nichts festnagelen sondern halten die Einleitung generisch :)
+% Vorschlag, wir lassen uns auf nichts festnagelen sondern halten die Einleitung generisch :)
 % Bitte meinen Kram nur als Vorschlag sehen! 
 
 
@@ -31,19 +31,50 @@
 %
 % Den Begriff "kommerziell" im Kontext dieser Arbeit klar abgrenzen
 
-Betrachtet man die Aspekte der sicheren Programmierung, so muss man sich im Vorfeld einer Betrachtung zunächst über die grundlegenden  Risiken bei der Entwicklung von Softwarelösungen im Klaren sein. Generell existieren im Kontext der Informationstechnik folgende drei primäre Schutzziele, die bei der Entwicklung von Softwarelösungen berücksichtigt und eingehalten werden müssen:
+Jede Entwicklerin und jeder Entwickler möchte neben der Funktionalität 
+auch die Sicherheit seiner Software garantieren.
+
+Um die Aspekte der sicheren Programmierung zu betrachten, 
+muss man im Vorfeld sich über die grundlegenden Risiken bei der 
+Entwicklung von Softwarelösungen informieren.
+Im Kontext der Informationstechnik haben sich drei primäre Schwachpunkte
+heraus kristallisiert:
 
 \begin{itemize}
       \item\textbf{Vertraulichkeit}\\
- 	   Eine Softwarelösung führt eine ausreichende Überprüfung von Benutzerberechtigungen durch und erlaubt nur legitimen Benutzern den Zugriff auf (vertrauliche) Daten. Die Verdaulichkeit von Daten hat implizit rechtliche Auswirkungen und ist in vielen Ländern durch entsprechende nationale Gesetze geregelt (z.B. Bundesdatenschutzgesetz). Neben rechtlichen Auswirkungen hat die Vertraulichkeit von Daten im Hinblick auf wirtschaftliche Interessen (z.B. Diebstahl von Forschungsergebnissen) einen sehr hohen Stellenwert.
+ 	   Eine Softwarelösung führt eine ausreichende Überprüfung von 
+ 	   Benutzerberechtigungen durch und erlaubt nur legitimen Benutzern 
+ 	   den Zugriff auf (vertrauliche) Daten. 
+ 	   Die Verdaulichkeit von Daten hat implizit rechtliche Auswirkungen 
+ 	   und ist in vielen Ländern durch entsprechende nationale Gesetze 
+ 	   geregelt (z.B. Bundesdatenschutzgesetz). Neben rechtlichen 
+ 	   Auswirkungen hat die Vertraulichkeit von Daten im Hinblick auf 
+ 	   wirtschaftliche Interessen (z.B. Diebstahl von Forschungsergebnissen) 
+ 	   einen sehr hohen Stellenwert.
 	  
 	  \item\textbf{Integrität}\\
-	   Eine Softwarelösung verhindert eine Manipulation von Daten oder stellt Methoden (z.B. Hashwertbildung) zu Feststellung einer unerlaubten Modifikation der Daten bereit.
+	   Eine Softwarelösung verhindert eine Manipulation von Daten oder 
+	   stellt Methoden (z.B. Hashwertbildung) zu Feststellung einer 
+	   unerlaubten Modifikation der Daten bereit.
 	  
 	  \item\textbf{Verfügbarkeit} 
-	   Eine Softwarelösung muss funktionieren, auch wenn ein Fehler- oder Problemfall auftritt. Die Verfügbarkeit ist aus wirtschaftlicher Sicht analog zur Vertraulichkeit zu bewerten. Fällt in einem Unternehmen eine zentrale Systemkomponente (z.B. SAP-System) aufgrund eines Softwarefehlers aus, kann dies zum vollständigen erliegen eines Geschäftsprozesses führen und in kürzester Zeit einen immensen monetären Schaden verursachen.
+	   Eine Softwarelösung muss funktionieren, auch wenn ein Fehler- 
+	   oder Problemfall auftritt. Die Verfügbarkeit ist aus wirtschaftlicher 
+	   Sicht analog zur Vertraulichkeit zu bewerten. Fällt in einem 
+	   Unternehmen eine zentrale Systemkomponente (z.B. SAP-System) 
+	   aufgrund eines Softwarefehlers aus, kann dies zum vollständigen 
+	   erliegen eines Geschäftsprozesses führen und in kürzester Zeit 
+	   einen immensen monetären Schaden verursachen.
 \end{itemize}
 
-Da zur Wahrung der oben aufgeführten Schutzziele im Umfeld der Softwareentwicklung vielfältige Lösungsansätze existieren, würde eine detaillierte Betrachtungen der verschiedenen Entwicklungsparadigmen, Implementierungsverfahren und Frameworks den Rahmen dieser Ausarbeitung bei weitem überschreiten. Aus diesem Grund betrachten die Verfasser ausgewählte Entwicklungsprozesse und Konzepte, die eine sichere Entwicklung von Software unterstützen Daneben werden verschiedene Angriffs- und Bedrohungsszenarien einschließlich möglicher Gegenmaßnahmen aufgezeigt.
+Da zur Wahrung der oben aufgeführten Schutzziele im Umfeld der 
+Softwareentwicklung vielfältige Lösungsansätze existieren, würde eine 
+detaillierte Betrachtungen der verschiedenen Entwicklungsparadigmen, 
+Implementierungsverfahren und Frameworks den Rahmen dieser Ausarbeitung 
+bei Weitem überschreiten. Aus diesem Grund betrachten die Verfasser 
+ausgewählte Entwicklungsprozesse und Konzepte, die eine sichere 
+Entwicklung von Software unterstützen Daneben werden verschiedene 
+Angriffs- und Bedrohungsszenarien einschließlich möglicher 
+Gegenmaßnahmen aufgezeigt.
 
 
