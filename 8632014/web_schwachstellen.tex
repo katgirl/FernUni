@@ -1,18 +1,31 @@
 \subsection{Injection-Schwachstellen}
 
-Zur dieser Schwachstellenkategorie zählen typischerweise SQL-, LDAP-, OS-Command oder XPath-Injections. Diese Schwachstellen treten bei Anwendungen auf, die nicht vertrauenswürdige Eingaben (z.B. Eingaben durch einen Anwender) nicht ausreichend prüfen.
+Zur dieser Schwachstellenkategorie zählen typischerweise SQL-, LDAP-, 
+OS-Command oder XPath-Injections. Diese Schwachstellen treten bei 
+Anwendungen auf, die nicht vertrauenswürdige Eingaben 
+(z.B. Eingaben durch einen Anwender) nicht ausreichend prüfen.
 
 
 \subsubsection{SQL-Injection-Schwachstellen}
 
-Die SQL-Injection Technik wurde 1998 im Phrack Magazin\footnote{http://www.phrack.org/issues.html?issue=54\&id=8\#article} einem breiten Publikum vorstellt. Mithilfe einer SQL-Injection Schwachstelle kann ein Angreifer über einen serverseitig unzureichend validierten Eingabeparameter beliebige Datenbankbefehle an eine der Webanwendung nachgelagerten Backend-Datenbank senden.
+Die SQL-Injection-Technik wurde 1998 im Phrack Magazin
+\footnote{http://www.phrack.org/issues.html?issue=54\&id=8\#article} 
+einem breiten Publikum vorstellt. Mithilfe einer SQL-Injection-Schwachstelle 
+kann ein Angreifer über einen serverseitig unzureichend 
+validierten Eingabeparameter beliebige Datenbankbefehle an eine der 
+Webanwendung nachgelagerten Backend-Datenbank senden.
 
-Alle gängigen Programmiersprachen sind – unabhängig von den folgenden Beispielen – für SQL-Injections anfällig. Dabei sind Runtime-basierende Sprachen wie beispielsweise Java oder C\# aufgrund ihrer  restriktiven Typprüfung tendenziell weniger anfällig für diese Art von Schwachstelle als klassische Scriptsprachen wie PHP oder Perl.
+Alle gängigen Programmiersprachen sind – unabhängig von den folgenden 
+Beispielen – für SQL-Injections anfällig. Dabei sind Runtime-basierende 
+Sprachen wie beispielsweise Java oder C\# aufgrund ihrer  restriktiven 
+Typprüfung tendenziell weniger anfällig für diese Art von Schwachstelle 
+als klassische Scriptsprachen wie PHP oder Perl.
 \\
 \textbf{Beispiel}
 \\
-Eine Applikation verfügt über eine Suchfunktion, die es einen Anwender ermöglicht, über ein Suchformaluar nach Benutzer-IDs
-zu suchen. Die Suche ist über das Suchformular "suche.php" realisiert
+Eine Applikation verfügt über eine Suchfunktion, die es einen Anwender 
+ermöglicht, über ein Suchformaluar nach Benutzer-IDs zu suchen. 
+Die Suche ist über das Suchformular "suche.php" realisiert
 \\
 \textbf{Regulärer Aufruf der Anwendung:}
 \\
@@ -34,13 +47,23 @@ SELECT benutzer, email FROM users WHERE id=4711;
 UPDATE users SET isAdmin=1 WHERE id=235;
 \end{lstlisting}
 
-Um potentielle SQL-Injection Schwachstellen innerhalb einer Anwendung zu finden, existieren eine Vielzahl von kommerziellen Anwendungen (z.B. Havij\footnote{http://www.itsecteam.com/products/havij-v116-advanced-sql-injection/}) als auch Open-Source-Tools wie z.B. Sqlmap\footnote{http://sqlmap.org/}
+Um potentielle SQL-Injection-Schwachstellen innerhalb einer Anwendung 
+zu finden, existieren eine Vielzahl von kommerziellen Anwendungen 
+(z.B. Havij\footnote{http://www.itsecteam.com/products/havij-v116-advanced-sql-injection/}) 
+als auch Open-Source-Tools wie z.B. Sqlmap\footnote{http://sqlmap.org/}
 
 \minisec{Sqlmap}
 
-Bei Sqlmap handelt es sich um ein Open-Source Tool um SQL-Injetion Schwachstellen automatisiert zu finden und auszunutzen. Bei Sqlmap handelt es sich um eine konsolenbasierte Anwendung. Das kommerzielle Tool Havij bietet dem Anwender hingegen eine grafische Menüführung an.
+Bei Sqlmap handelt es sich um ein Open-Source Tool um SQL-Injetion 
+Schwachstellen automatisiert zu finden und auszunutzen. Bei Sqlmap 
+handelt es sich um eine konsolenbasierte Anwendung. Das kommerzielle 
+Tool Havij bietet dem Anwender hingegen eine grafische Menüführung an.
 
-Im folgenden Beispiel besteht die Vermutung, dass einer der folgenden POST-Parameter für SQL-Injection anfällig ist. Dabei ist im Vorfeld der Überprüfung bekannt, dass es sich bei der Backend-Datenbank um eine MSSQL-Datenbank handelt. Um dies automatisiert zu verifizieren, wird Sqlmap mit folgenden Parametern aufgerufen:
+Im folgenden Beispiel besteht die Vermutung, dass einer der folgenden 
+POST-Parameter für SQL-Injection anfällig ist. Dabei ist im Vorfeld der 
+Überprüfung bekannt, dass es sich bei der Backend-Datenbank um eine 
+MSSQL-Datenbank handelt. Um dies automatisiert zu verifizieren, wird 
+Sqlmap mit folgenden Parametern aufgerufen:
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 sqlmap.py -u "http://www.beispiel.de"
@@ -48,7 +71,10 @@ sqlmap.py -u "http://www.beispiel.de"
 --dbms=mssql --risk=3 --level=3
 \end{lstlisting}
 
-Ist einer der Parameter für SQL-Injection Angriffe anfällig, werden Informationen zum darunterliegen Betriebssystem, der eingesetzten Datenbank, als auch Details zur der verwendeten Injection-Technik ausgegeben.
+Ist einer der Parameter für SQL-Injection Angriffe anfällig, werden 
+Informationen zum darunterliegen Betriebssystem, der eingesetzten 
+Datenbank, als auch Details zur der verwendeten Injection-Technik 
+ausgegeben.
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 [INFO] the back-end DBMS is Microsoft SQL Server
@@ -63,21 +89,44 @@ Place: POST
   --&txtPw=geheim&cmdSend=Login
 \end{lstlisting}
 
-Wie der Ausgabe zu entnehmen ist, wird als Datenbanksystem das Microsoft Produkt SQL-Server 2008 auf einem Microsoft Windows Vista betrieben. Der Parameter \texttt{txtMail} ist für einen time-based blind SQL-Injection-Angriff anfällig.
+Wie der Ausgabe zu entnehmen ist, wird als Datenbanksystem das Microsoft 
+Produkt SQL-Server 2008 auf einem Microsoft Windows Vista betrieben. 
+Der Parameter \texttt{txtMail} ist für einen time-based blind 
+SQL-Injection-Angriff anfällig.
 
 \minisec{Time-based blind SQL Injection}
 
-Bei einer "Blind SQL-Injection" geht aus den Fehlermeldungen des Datenbanksystem nicht hervor, ob eine Anfrage an die Datenbank erfolgreich war oder nicht. Durch die Korrelation von verschiedenen Details wie z.B. eine provozierte Veränderungen der Laufzeiten durch einen Angreifer oder kleinsten Änderungen innerhalb der DBMS-Fehlermeldung können Rückschlüsse auf den Erfolg einer Anfrage gezogen werden.
+Bei einer "Blind SQL-Injection" geht aus den Fehlermeldungen des 
+Datenbanksystem nicht hervor, ob eine Anfrage an die Datenbank 
+erfolgreich war oder nicht. Durch die Korrelation von verschiedenen 
+Details wie z.B. eine provozierte Veränderungen der Laufzeiten durch 
+einen Angreifer oder kleinsten Änderungen innerhalb der 
+DBMS-Fehlermeldung können Rückschlüsse auf den Erfolg einer Anfrage 
+gezogen werden.
  
-Um beispielsweise den Namen der Datenbank mit Hilfe einer "time-based blind" SQL-Injection herauszufinden bzw. zu erraten (enumerieren) wird im verwendeten Beispiel für jeden richtig geratenen Buchstaben der gesuchten Datenbank-Bezeichnung eine Pause von 5 Sekunden eingelegt. Auf diese Weise kann ein Angreifer feststellen, ob eine Datenbankanfrage erfolgreich war oder nicht bzw. ob der übergebene Buchstabe ein Teil der Datenbank-Bezeichnung war. 
+Um beispielsweise den Namen der Datenbank mit Hilfe einer 
+"time-based blind" SQL-Injection herauszufinden bzw. zu erraten 
+(enumerieren) wird im verwendeten Beispiel für jeden richtig geratenen 
+Buchstaben der gesuchten Datenbank-Bezeichnung eine Pause von 5 Sekunden 
+eingelegt. Auf diese Weise kann ein Angreifer feststellen, ob eine 
+Datenbankanfrage erfolgreich war oder nicht bzw. ob der übergebene 
+Buchstabe ein Teil der Datenbank-Bezeichnung war. 
 
-Die Enumeration ist jedoch nicht ausschließlich auf den Datenbanknamen oder die Datenbanktabellen begrenzt, ebenso kann der aktuelle Datenbankbenutzer enumeriert werden oder sogar Betriebssystembefehle über diese Schwachstelle abgesetzt werden.
+Die Enumeration ist jedoch nicht ausschließlich auf den Datenbanknamen 
+oder die Datenbanktabellen begrenzt, ebenso kann der aktuelle 
+Datenbankbenutzer enumeriert werden oder sogar Betriebssystembefehle 
+über diese Schwachstelle abgesetzt werden.
 
-Für weitere Hintergrundinformationen zu den einzelnen SQL-Injection-Techniken wird auf das SQL-injection-Cheat-Sheet\footnote{http://ferruh.mavituna.com/sql-injection-cheatsheet-oku} verwiesen.
+Für weitere Hintergrundinformationen zu den einzelnen 
+SQL-Injection-Techniken wird auf das SQL-injection-Cheat-Sheet
+\footnote{http://ferruh.mavituna.com/sql-injection-cheatsheet-oku} 
+verwiesen.
 
 \subsubsection{OS-Command-Injection}
 
-OS-Command-Injection-Schwachstellen verhalten sich sehr ähnlich zu SQL-Injection-Schwachstellen. Dabei werden beispielsweise über eine Webanwendung Betriebssystembefehle eingeschleust und ausgeführt.
+OS-Command-Injection-Schwachstellen verhalten sich sehr ähnlich zu 
+SQL-Injection-Schwachstellen. Dabei werden beispielsweise über eine 
+Webanwendung Betriebssystembefehle eingeschleust und ausgeführt.
 \\
 \textbf{Beispiel-1:} Regulärer Aufruf eines Perl CGI-Scripts zur Ausgabe von aktuell am System angemeldeten Benutzern
 \\
@@ -95,18 +144,30 @@ OS-Command-Injection-Schwachstellen verhalten sich sehr ähnlich zu SQL-Injectio
 \\
 \texttt{\footnotesize{print `who | grep \$username; ls -la`;}}
 \\
-Durch ein Anhängen des \texttt{ls}-Befehls an den GET-Parameter \texttt{username} wird nicht nur nach dem übergebenen Benutzernamen innerhalb der \texttt{who}-Ausgabe gesucht, sondern auch der Inhalt des aktuellen Verzeichnisses ausgegeben.
+Durch ein Anhängen des \texttt{ls}-Befehls an den GET-Parameter 
+\texttt{username} wird nicht nur nach dem übergebenen Benutzernamen 
+innerhalb der \texttt{who}-Ausgabe gesucht, sondern auch der Inhalt 
+des aktuellen Verzeichnisses ausgegeben.
 
 \subsection{Maßnahmen zur Behebung von Injection-Schwachstellen}
 
-Um Anwendungen vor Injection-Schwachstellen zu schützen, empfiehlt es sich generell neben einer serverseitigen Validierung aller Eingabeparameter und deren Prüfung auf kritische Zeichenketten wie beispielsweise Anführungszeichen oder Semikolon, bereits im Entwicklungsprozess regelmäßig statische Quellcode-Analyse durchzuführen.
+Um Anwendungen vor Injection-Schwachstellen zu schützen, empfiehlt es 
+sich generell neben einer serverseitigen Validierung aller 
+Eingabeparameter und deren Prüfung auf kritische Zeichenketten wie 
+beispielsweise Anführungszeichen oder Semikolon, bereits im 
+Entwicklungsprozess regelmäßig statische Quellcode-Analyse 
+durchzuführen.
 
 \subsubsection{Maßnahmen zur Behebung SQL-Injection-Schwachstellen}
-In diesem Abschnitt werden mögliche Maßnahmen zur Behebung von SQL-Injection-Schwachstellen vorgestellt.
+In diesem Abschnitt werden mögliche Maßnahmen zur Behebung von 
+SQL-Injection-Schwachstellen vorgestellt.
 
 \minisec{Escapen von Metazeichen}\label{escpace_metazeichen}
 
-Werden Strings für Datenbankabfragen dynamisch generiert, dürfen dabei keine unerwünschten Metazeichen in den String eingebaut werden. Werden unerlaubt Metazeichen übergeben, müssen diese erkannt und "entschärft" werden.
+Werden Strings für Datenbankabfragen dynamisch generiert, dürfen dabei 
+keine unerwünschten Metazeichen in den String eingebaut werden. Werden 
+unerlaubt Metazeichen übergeben, müssen diese erkannt und "entschärft" 
+werden.
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 function SQLStringReplacement)$s) {

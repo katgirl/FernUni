@@ -1,12 +1,28 @@
 \subsection{Buffer-Overflow Schwachstellen}	
 
-Buffer-Overflows Schwachstellen entstehen im Regelfall durch die Verwendung von Programmiersprachen, die es einem Entwickler ermöglichen, allozierte Speicherbereiche unkontrolliert zu überschreiben.
+Buffer-Overflows Schwachstellen entstehen im Regelfall durch die 
+Verwendung von Programmiersprachen, die es einem Entwickler ermöglichen, 
+allozierte Speicherbereiche unkontrolliert zu überschreiben.
+
 \par\medskip 
-Als ein typischer Vertreter für eine Programmiersprache die potentiell für Buffer-Schwachstellen anfällig ist, gilt die Programmiersprache C. Die Programmiersprache ermöglicht es einem Entwickler, nahezu beliebige Speicheradressen zu überschreiben und bietet darüber hinaus noch zahlreiche eigene, native C-Funktionen (z.B. \texttt{strcpy()}), die unabhängig vom Entwickler keinerlei Prüfungen in Hinsicht auf den benötigten Speicherplatz implementiert haben.
+Als ein typischer Vertreter für eine Programmiersprache die potentiell 
+für Buffer-Schwachstellen anfällig ist, gilt die Programmiersprache C. 
+Die Programmiersprache ermöglicht es einem Entwickler, nahezu beliebige 
+Speicheradressen zu überschreiben und bietet darüber hinaus noch 
+zahlreiche eigene, native C-Funktionen (z.B. \texttt{strcpy()}), die 
+unabhängig vom Entwickler keinerlei Prüfungen in Hinsicht auf den 
+benötigten Speicherplatz implementiert haben.
 \\\\
 \textbf{Beispiel: Stack-Overflow (Setup: x64-System, Linux, gcc-4.8.1)}
 \\
-Der C-Code im folgenden Beispiel erwartet die Eingabe einer beliebigen Zeichenkette mit einer maximalen Länge von 63 Zeichen zzgl. des String-Ende-Zeichens als Kommandozeilenparameter. Die im Code verwendete C-Funktion \texttt{strcpy()} gilt als unsicher, da keine Längenprüfung des zu kopierenden Strings vorgenommen wird. Mithilfe der \texttt{strcpy()}-Funktion ist es später möglich, die Rücksprungadresse der \texttt{go()}-Funktion so zu modifizieren, dass die im Code nicht aufgerufene Funktion \texttt{pwnd()} ausgeführt wird.
+Der C-Code im folgenden Beispiel erwartet die Eingabe einer beliebigen 
+Zeichenkette mit einer maximalen Länge von 63 Zeichen zzgl. 
+des String-Ende-Zeichens als Kommandozeilenparameter. 
+Die im Code verwendete C-Funktion \texttt{strcpy()} gilt als unsicher, 
+da keine Längenprüfung des zu kopierenden Strings vorgenommen wird. 
+Mithilfe der \texttt{strcpy()}-Funktion ist es später möglich, die 
+Rücksprungadresse der \texttt{go()}-Funktion so zu modifizieren, dass 
+die im Code nicht aufgerufene Funktion \texttt{pwnd()} ausgeführt wird.
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 #include <string.h>

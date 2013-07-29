@@ -1,56 +1,216 @@
-\section{Softwareentwicklung}\label{entwicklung}
+\section{Softwareentwicklung}
 
 Die Softwareentwicklung selbst ist so alt wie das Computerzeitalter. 
 Mit den ersten Computern wurden auch die ersten Programme entwickelt,
-diese waren noch lange nicht so umfangreich wie die heutigen, doch wurden
+diese waren noch lange nicht so umfangreich wie die heutigen, so wurden
 auch schon in den frühen Anfängen einfache mathematische Operationen durchgeführt. 
 
 Mit der immer leistungsfähiger werdenden Hardware, werden Softwareentwicklungen
 die einst als sicher galten heute als unsicher eingestuft. Alleine immer
 bessere Hardware schafft mehr Opperationen in kürzerer Zeit zu berrechnen.
 Was zu Folge hat, dass auch komplexe Algorithmen in immer kürzerer Zeit
-gelöst werden.  
-Um vertrauliche Informationen unleserlich zu machen, reichte es Cäsar, 
-im alten Ägypten, ein Stück Papyrus um einen Holzstab zu wickeln und
-die Informationen so unleserlich zu machen. 
-\footnote[1]{http://de.wikipedia.org/wiki/Caesar-Verschlüsselung} 
-Im zweiten Weltkrieg wurde dann die Enigma \footnote[2]{http://de.wikipedia.org/wiki/Enigma_(Maschine)} 
+gelöst werden. Was eigentlich als technischer Fortschritt und Verbesserung 
+angesehen werden kann, führt aber auch zu neuen Problemen.
+Um vertrauliche Informationen unleserlich zu machen, reichte es Cäsar 
+ein Stück Papyrus um einen zylindrischen Holzstab zu wickeln und die 
+Informationen so unleserlich zu machen.\footnote{http://de.wikipedia.org/wiki/Caesar-Verschlüsselung} 
+Im zweiten Weltkrieg wurde dann die Enigma \footnote{http://de.wikipedia.org/wiki/Enigma_(Maschine)} 
 lange Zeit eingesetzt um eine sichere Kommunikation zu gewährleisten. 
-Erst in den 1970er Jahren gab es einen Wechsel von symmetrischen auf 
+Erst in den 1970er Jahren gab es einen Wechsel von symmetrische auf 
 asymmetrische Verschlüsselung, wobei Sender und Empfänger nicht mehr auf 
-den Gleichen Schlüssel angewiesen waren. Seid dem wird der als sicher
+den gleichen Schlüssel angewiesen waren. Seid dem wird der als sicher
 geltende Schlüssel gefühlt jährlich verdoppelt. Zudem gesellen sich immer
 neuere Verschlüsselungsalgorithmen, die auf mathematischen Grundlagen basieren. 
+So wird die 1993 entwickelte Blowfish-Verschlüsselung\footnote{http://www.schneier.com/blowfish.html}
+heute bevorzugt verwendet und ersetzt damit den SHA-Algorythmus\footnote{http://csrc.nist.gov/publications/fips/fips180-2/fips180-2withchangenotice.pdf}. 
+In PHP5.5 wurde Blowfish als erste Passwortverschlüsselung in die neue
+Hash-Funktion aufgenommen.  
 
-Wenn man gerne sichere Software erstellen möchte als Entwickler, so 
-befindet man sich in einem ständigen Wettkampf mit immer besser werdender 
-Hardware und komplexeren Softwareanwendungen. Hierdurch entstehen neue 
-Herausforderungen die es zu meistern gilt. 
-Zudem müssen Softwareentwicklungen oft in einem zeitlich vorgeschriebenen 
+Es findet ein ständigen Wettkampf mit immer besser werdenden
+Hardware und komplexeren Softwareanwendungen statt. So kann konnte man 
+2000 noch ein Programm nach den damaligen "Sicherheitsrichtlininen" 
+entwickeln, welches heute als risikobehaftet gilt. So entstehen 
+neue Herausforderungen die es zu meistern gilt. 
+Softwareentwicklungen müssen oft in einem zeitlich vorgeschriebenen 
 Rahmen fertiggestellt werden. Daher wird oft geschaut welche Lebensdauer 
-die Software hat und für welchen Einsatzzweck sie bestimmt ist. Zu diesem 
-Zweck gibt es ein Risikomanagement, das den Schaden schon vor der eigentlichen
-Entwicklung abschätzen soll.
+die Software hat und für welchen Einsatzzweck sie bestimmt ist. Bei einigen
+Projekten wird dann ein Risikomanagement durchgeführt, das den 
+Schaden schon vor der eigentlichen Entwicklung abschätzen soll.
 
-\subsubsection{Programmiersprachen}
-Wir leben in einem multikulturellen Umfeld, in mehrerlei Hinsicht.
+\subsection{Programmiersprachen}
+Im einundzwanzigsten Jahrhundert bewegt man sich in einem multikulturellen 
+Umfeld, in mehrerlei Hinsicht.
+
 So gab es schon in den Anfängen des Computerzeitalters gleich dutzende 
-von Programmiersprachen, die aber speziell an die Bedürfnisse der Anforderung
-angepasst waren. Mit Basic und C entstanden die ersten universellen
+von Programmiersprachen, die aber jeweils speziell an die Bedürfnisse der 
+Anforderung angepasst waren. Mit Basic und C entstanden die ersten universellen
 Programmiersprachen die die Entwicklung rasch voran trieben und heute 
 noch eingesetzt werden.
-Dann kam in den 1990er Jahren das Internet, welches neue Anforderungen
+
+Dann kam in den 1990er-Jahren das Internet, welches neue Anforderungen
 an die Programmiersprachen stellte und durch die rasche Entwicklung auch 
-viele logische Programmiersprachen sterben ließ, da sie mit dem Fortschritt 
-nicht mithalten konnten.   
+viele Programmiersprachen sterben ließ, da sie mit dem Fortschritt 
+nicht mithalten konnten.
+
 Das war die Geburtsstunde der objektorientierten und skriptbasierten 
 Programmiersprachen.
-Die wohl heute verbreitetste Programmierparadigma ist die opjektorientierte.
-Dabei wird versucht die Daten als Objekt zu betrachten und so die 
-Komplexität zu vereinfachen indem Redundanzen nutzbar gemacht werden.
 
-\subsubsection{Frameworks} 
-Um 
-  
+Durch die Globalisierung und damit schnellere Kommunikationswege und 
+einer einheitlichen Sprache (englisch), kann man sich auch über große 
+Distanzen austauschen und Wissen teilen.
 
- 
+Das heute verbreitetste Programmierparadigma ist das Objektorientierte.
+Dabei wird versucht, die Daten als Objekt zu betrachten und so die 
+Komplexität zu vereinfachen, indem Redundanzen nutzbar gemacht werden.
+Auch heute gibt es noch zahlreiche Programmiersprachen, die ihre Anhänger
+haben, die sich in sogennante Communitys zusammenschließen um die 
+Programmiersprachen weiter zu entwickeln und das Wissen auszutauschen.
+
+\subsection{Frameworks} 
+Ein Framework stellt kein fertiges Programm dar, vielmehr dient es 
+Entwicklerinnen und Entwicklern als Grundgerüst in der 
+objektorientierten Programmierung. Es bringt dabei für gewöhnlich neben 
+der Struktur auch die Anwendungsarchitektur mit. Insbesondere wird 
+aber der Kontrollfluss der Anwendung und die Schnittstellen darüber
+in architektonischen Mustern bereitgestellt. 
+Heute gibt es zahlreiche Frameworks zu fast jeder Programmiersprachen und
+Anwendungsfall, daher gibt es keine allgemeingültige Definition.   
+
+\minisec{Framework Typen}
+\begin{itemize}
+  \item Application Frameworks 
+        \newline bilden das Programmiergerüst für Anwendungen.
+  \item Domain Frameworks 
+        \newline bilden das Programmiergerüst für Problembereich.
+  \item Class Frameworks 
+        \newline bilden über Klassen und Methoden die Abstraktionsebenen 
+        für ein breites Anwendungsfeld ab.
+  \item Komponenten-Frameworks
+        \newline bilden die Basis für Software-Komponenten, indem sie die 
+        objektorientierte Ebenen abstrahieren.
+  \item Coordination-Frameworks
+        \newline bilden die Basis für Geräte-Interaktion.
+  \item Tests Frameworks
+        \newline dienen als Programmiergerüst für (automatisierte) Softwaretests.
+  \item Webframeworks
+        \newline sind speziell für Webanwendungen ausgelegt.
+\end{itemize}
+
+\subsection{Entwicklungsumgebungen}
+Eine Entwicklungsumgebungen oder kurz IDE (Integrierte Entwicklungsumgebung)
+ist eine Sammlung verschiedener Anwendungsprogramme. Somit kann man 
+Medienbrüche in der Softwareentwicklung vermeiden. Was gerade bei größeren
+Entwicklungen zu Effizienz in der Arbeit führt.
+Es gibt für fast jede Programmiersprache eine große Vielzahl von 
+Entwicklungsumgebungen. Sowohl Open-Source als auch proprietäre 
+Entwicklungsumgebungen.
+So ist die wohl bekannteste und verbreitetste Entwicklungsumgebung für
+Softwareentwicklungen die in und ursprünglich für Java geschriebene 
+Umgebung Eclipse\footnote{http://www.eclipse.org/}. Die Entwicklungsumgebung
+erfreute sich nicht zuletzt durch den 2001 von IBM freigebenden Quellcode
+großer Beliebtheit. Auch die Weiterentwicklung ist zur Zeit gesichert, 
+da IBM weiterhin Entwickler für die Arbeit an der Software finanziert. 
+Durch Erweiterungen erden weitere Programmiersprachen
+von Eclipse unterstützt. Dadurch ist jeder der mit Softwareentwicklung
+zu tun hat schon mal mit Eclipse in Berührung gekommen.  
+Dieses ist aber lange nicht die einzige Erfolgsgeschichte auf dem Markt
+der Entwicklungsumgebungen. So gibt es zahlreiche Produkte, die um die 
+Gunst der Softwareentwickler buhlen. 
+
+\subsection{Versionskontrollsystem}
+Bei einem Versionskontrollsystem werden Änderungen dokumentiert und
+festgehalten. So lassen sich Veränderungen an einem Dokument auch
+über viele folgende Änderungen nachschlagen und rückgängig machen bzw.
+nachverfolgen warum eine Änderung vorgenommen wurde.
+Es gibt verschiedene Funktionsweisen:
+\begin{itemize}
+  \item Lokale Versionsverwaltung
+  \item Zentrale Versionsverwaltung 
+  \item Verteilte Versionsverwaltung 
+\end{itemize}
+Die wohl bekanntesten Vertreter solcher Software sind Subversion (SVN)
+\footnote{http://subversion.apache.org} und git\footnote{http://git-scm.com}, die
+zudem noch unter freien Lizenzen stehen.
+Dabei zählt SVN zu den zentralen Versionsverwaltung und git zur 
+verteilten Versionsverwaltung.
+SVN ist wohl die bekannteste Versionsverwaltung und mit Version 1.1 schafft
+sie bereits 2004 den Durchbruch, als Änderungen nicht mehr in der Datenbank, 
+sondern im Dateisystem abgelegt werden konnten.
+git ist erst 2005 durch Linus Torvalds entwickelt worden, nachdem die
+Lizenz für das bisher von ihm eingesetzte Versionskontrollsystem geändert 
+wurde. Der große Durchbruch gelang aber erst durch github, einer Plattform
+auf der man seine Projekte teilen und mit anderen bearbeiten kann.
+
+\subsection{Ticketsystem}
+In einem Ticketsystem werden Fehler oder aber neue Funktionswünsche 
+durch Mitglieder/Kunden/... gemeldet, die dann von einem Entwickler 
+oder einer Entwicklerin betrachtet, nachvollzogen und klassifiziert
+werden können. 
+Voraussetzung für eine Fehlerbehebung ist eine genaue Fehlerbeschreibung 
+und ein reproduzierbarer Weg um den Fehler zu erzeugen/hervorzurufen.
+Durch verschiedene Statuse kann dann dem Nutzer mitgeteilt werden wann 
+oder in welcher Version der Fehler behoben ist.
+In Open-Souce-Projekten sind solche Ticketsystem zudem offen, so das 
+andere die Problemstellung einsehen können und ggf. einen besseren
+oder anderen Lösungsansatz vorab diskutieren können.
+
+\subsection{Softwarearten}
+Mit Softwarearten ist in diesem Kapitel die Art der Entstehung/Entwicklung
+der Software gemeint.
+Weithin gibt es zwei Arten der Softwarentwicklung:
+\begin{itemize}
+  \item kommerzielle Softwareentwicklung
+  \item freie Softwareentwicklung
+\end{itemize}
+Mit "frei" ist in diesem Fall Software gemeint, wo der Quellcode der
+Software frei von jedem Nutzer eingesehen werden kann. Sehr häufig wird
+"frei" mit open-source gleichgesetzt, was aber defakto nicht der Fall ist.
+\minisec{kommerzielle Softwareentwicklung} 
+Bei kommerzieller Softwareentwicklung handelt es sich häufig um 
+Auftragsprojekte durch einen Kunden bzw. Eigenentwicklungen um ein
+Softwareprodukt auf dem Markt zu platzieren.
+Bei kommerziellen Softwareentwicklungen kennt oft nur ein erlesener Kreis
+an Personen den Quellcode und ist auch für dessen Qualität verantwortlich.
+Zwar wird hier versucht, hochwertige Arbeit abzuliefern, doch leider
+ist das nicht immer der Fall. Teilweise wird der Code an externe
+Firmen zur Sicherheitsprüfung rausgegeben, da die Gewinnoptimierung 
+stets eine große Rolle spielt, wird leider aber genauso oft auf solche Tests
+verzichtet und darauf vertraut, das die eigenen Entwickler/Entwicklerinnen
+den Code geprüft haben und an alle Sicherheitsmerkmale gedacht haben.
+\minisec{freie Softwareentwicklung}   
+Bei quellcodefreier Software kann jeder vorher selber prüfen, wenn er dazu
+selbst in der Lage ist, oder jemanden beauftragen die Software zu prüfen.
+In Open-Source Communitys passiert dieses häufig automatisch. Da hier 
+mehrere Entwickler/Entwicklerinnen an einem Projekt arbeiten wird ein
+Versionskontrollsystem eingesetzt. Hier kann jede Veränderung nachverfolgt 
+werden. Durch die Verknüpfung mit einem Ticketsystem sind Nutzer in der 
+Lage, Wünsche und Fehler zu melden, die dann behoben oder
+aufgenommen werden können. Anschließend schauen mehrere unabhängige 
+Entwickler/Entwicklerinnen über den neu hinzugefügten Code und geben
+ihr Urteil darüber ab. 
+Durch diese Art der Entwicklung findet gleichzeitig eine Prüfung der
+Qualität und Sicherheit der Software statt.  
+
+
+\subsection{Softwareentwicklung durch \textit{Security by Design}}
+Der Frauenhofer Verlag hat auch in diesem Jahr eine aktualisierte 
+Ausgabe seines Trend- und Strategiebericht zu "Entwicklung sicherer 
+Software durch Security by Design"
+\footnote{https://www.sit.fraunhofer.de/fileadmin/dokumente/studien_und_technical_reports/Trendbericht_Security_by_Design.pdf} 
+herausgegeben.
+Dabei geht es darum, bei der Softwarenetwicklung bestimmte
+Sicherheitsaspekte wie Lebenszyklus und die Integration von 
+Softwarekomponenten anderer Hersteller frühzeitig zu analysieren.
+Dieser Trend- und Strategiebericht soll nicht als Richtlinie verstanden
+werden, eher soll er als Leitfaden dienen um sich mit der Problemstellung
+zu befassen.
+Das 65 Seitige Werk geht dabei auf die Bedeutung von Security By Design ein
+und zeigt wie durch Automatisierung und Reduktion menschlicher Fehlereinflüsse
+Code sicherer gemacht werden kann. Weiterhin bietet es einen Einblick
+in Probleme die Legacy-Software mit sich bringt und zeigt an verteilter 
+Entwicklung und Interagtion das kaum noch ein Softwareprojekt von einem
+einzigen Entwicklerteam realisiert wird und wo hier die Gefahren liegen.
+Den Abschluss macht ein Blick in die Zukunft, wo es darum geht, das
+schon heute einen Schritt in die richtige Richtung gegangen ist, 
+aber noch einen weiten Weg bevorsteht bis es keine Meldungen
+über Sicherheitslücken und Angriffe mehr gibt.

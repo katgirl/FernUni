@@ -56,15 +56,15 @@
 %\pagestyle{headings}
 
 % erzeugt Inhaltsverzeichnis mit Querverweisen zu den Kapiteln (PDF Version)
-\usepackage[bookmarksnumbered,pdftitle={Hausarbeit im Seminar 21817 „IT-Sicherheit“},hyperfootnotes=false]{hyperref} 
+\usepackage[bookmarksnumbered,pdftitle={Hausarbeit im Seminar 21817 „IT-Sicherheit“},hyperfootnotes=true]{hyperref} 
 %\hypersetup{colorlinks, citecolor=red, linkcolor=blue, urlcolor=black}
-%\hypersetup{colorlinks, citecolor=black, linkcolor= black, urlcolor=black}
+\hypersetup{colorlinks, citecolor=black, linkcolor= black, urlcolor=black}
 
 % neue Kopfzeilen mit fancypaket
 \usepackage{fancyhdr} %Paket laden
 \pagestyle{fancy} %eigener Seitenstil
 \fancyhf{} %alle Kopf- und Fußzeilenfelder bereinigen
-\fancyhead[L]{\nouppercase{\leftmark}} %Kopfzeile links
+\fancyhead[L]{} %Kopfzeile links
 \fancyhead[C]{} %zentrierte Kopfzeile
 \fancyhead[R]{\thepage} %Kopfzeile rechts
 \renewcommand{\headrulewidth}{0.4pt} %obere Trennlinie
@@ -95,7 +95,7 @@
 % für Listings
 \usepackage{listings}
 \lstset{numbers=left, numberstyle=\tiny, numbersep=5pt, keywordstyle=\color{black}\bfseries, stringstyle=\ttfamily,showstringspaces=false,basicstyle=\footnotesize,captionpos=b}
-\lstset{language=java}
+\lstset{language=perl}
 
 % Indexerstellung
 \makeindex
@@ -136,9 +136,7 @@
 
 % Leere Seite am Anfang
 %~ \newpage
-%~ \thispagestyle{empty} % erzeugt Seite ohne Kopf- / Fusszeile
-%~ \section*{ }
-
+\thispagestyle{empty} % erzeugt Seite ohne Kopf- / Fusszeile
 % Titelseite %
 \include{deckblatt}
 
@@ -150,10 +148,6 @@
 
 % Sperrvermerk
 %~ \input{sperrvermerk}
-
-% Eidesstattliche Erklärung
-\addcontentsline{toc}{section}{Eidesstattliche Erklärung}
-\include{erklaerung}
 
 % einfacher Zeilenabstand
 %\singlespacing
@@ -174,35 +168,43 @@
 % Definiert Stegbreite bei zweispaltigem Layout
 \setlength{\columnsep}{25pt}
 
-%%%%%%% EINLEITUNG %%%%%%%%%%%%
-%\twocolumn
+%%%%%%%%%%%%%%%%% Kapitel 1 %%%%%%%%%%%%%%%%%% 
 \newpage
-\fancyhead[L]{\nouppercase{\leftmark}} %Kopfzeile links
-
+\thispagestyle{fancy}
+\fancyhead[L]{} %Kopfzeile links
 % 1,5 facher Zeilenabstand
 \onehalfspacing
-
 % einzelne Kapitel
 \input{einleitung}
 
+%%%%%%%%%%%%%%%%% Kapitel 2 %%%%%%%%%%%%%%%%%% 
 \newpage
-% Überblick
+\thispagestyle{fancy} 
+\fancyhead[L]{\nouppercase{\leftmark}} %Kopfzeile links
+% Kirsten
+\input{9053522/entwicklung}
 
-
+%%%%%%%%%%%%%%%%% Kapitel 3 %%%%%%%%%%%%%%%%%% 
 \newpage
+\thispagestyle{fancy} 
+\fancyhead[L]{\nouppercase{\leftmark}} %Kopfzeile links
 %Florian
 \input{8632014/schwachstellen}
 
+%%%%%%%%%%%%%%%%% Kapitel 4 %%%%%%%%%%%%%%%%%% 
 \newpage
+\thispagestyle{fancy} 
+\fancyhead[L]{} %Kopfzeile links
 % Kirsten
-\input{9053522/entwicklung}
-%\input{9053522/programmierfehler}
-%\input{9053522/senario_fuer_angriffe}
-%\input{9053522/sicherer_code}
+\input{9053522/umgang_mit_sicherheitsluecken}
 
+%%%%%%%%%%%%%%%%% Kapitel 5 %%%%%%%%%%%%%%%%%% 
+\newpage
+\thispagestyle{fancy} 
+\fancyhead[L]{} %Kopfzeile links
+% Kirsten
 \input{fazit}
 
-%~ \input{beispiel}
 
 \onecolumn
 % einfacher Zeilenabstand
@@ -213,16 +215,6 @@
 % Literaturverzeichnis anzeigen
 \renewcommand\refname{Literaturverzeichnis}
 \bibliography{Hauptdatei}
-
-%% Index soll Stichwortverzeichnis heissen
-% \newpage
-% % Stichwortverzeichnis soll im Inhaltsverzeichnis auftauchen
-% \addcontentsline{toc}{section}{Stichwortverzeichnis}
-% \renewcommand{\indexname}{Stichwortverzeichnis}
-% % Stichwortverzeichnis endgueltig anzeigen
-% \printindex
-
-
 
 % Abstract
 \newpage
@@ -235,25 +227,6 @@
 \fancyhead[L]{Anhang} %Kopfzeile links
 \input{anhang}
 
-%% WORKAROUND für Listings
-%\makeatletter% --> De-TeX-FAQ
-%\renewcommand*{\lstlistoflistings}{%
-%  \begingroup
-%    \if@twocolumn
-%      \@restonecoltrue\onecolumn
-%    \else
-%      \@restonecolfalse
-%    \fi
-%    \lol@heading
-%    \setlength{\parskip}{\z@}%
-%    \setlength{\parindent}{\z@}%
-%    \setlength{\parfillskip}{\z@ \@plus 1fil}%
-%    \@starttoc{lol}%
-%    \if@restonecol\twocolumn\fi
-%  \endgroup
-%}
-%\makeatother% --> \makeatletter
-% das Listingverzeichnis
 \newpage
 % Listingverzeichnis soll im Inhaltsverzeichnis auftauchen
 \addcontentsline{toc}{section}{Listingverzeichnis}
@@ -280,11 +253,8 @@
 % Abbildungsverzeichnis endgueltig anzeigen
 \listoftables
 
+%%%%%%%%%%%%%%%%% Eidesstattliche Erklärung %%%%%%%%%%%%%%%%%% 
+\thispagestyle{fancy} 
+\include{erklaerung}
 
-
-% leere Abschlussseite
-%~ \newpage
-%~ \thispagestyle{empty} % erzeugt Seite ohne Kopf- / Fusszeile
-%~ \section*{ }
-
-\end{document}
+\end{document}  % beendet das Schriftstueck 
