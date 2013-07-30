@@ -1,11 +1,11 @@
-\subsection{Buffer-Overflow Schwachstellen}	
+\subsection{Buffer-Overflow-Schwachstellen}	
 
-Buffer-Overflows Schwachstellen entstehen im Regelfall durch die 
+Buffer-Overflow-Schwachstellen entstehen im Regelfall durch die 
 Verwendung von Programmiersprachen, die es einem Entwickler ermöglichen, 
 allozierte Speicherbereiche unkontrolliert zu überschreiben.
 
 \par\medskip 
-Als ein typischer Vertreter für eine Programmiersprache die potentiell 
+Als ein typischer Vertreter für eine Programmiersprache die potenziell 
 für Buffer-Schwachstellen anfällig ist, gilt die Programmiersprache C. 
 Die Programmiersprache ermöglicht es einem Entwickler, nahezu beliebige 
 Speicheradressen zu überschreiben und bietet darüber hinaus noch 
@@ -115,7 +115,7 @@ Aus den disassemblierten Funktionen können folgende Informationen entnommen wer
 
 \begin{itemize}
       \item \texttt{x00000000004005ef <+31>:    lea    -0x40	(\%rbp), \%rax}\\
-        Aufgrund des vorhandenen C-Code ist bereits bekannt, dass für die \texttt{strcpy()}-Funktion ein \SI{64}{Byte} großes Charakter-Array (\texttt{char data[64]}) als Ziel des Kopiervorgangs reserviert wurde. Läge der C-Code nicht vor, könnte man durch den hexadezimalen Wert \texttt{0x40} die maximale Speichergröße von \SI{64}{Byte} feststellen.        
+        Aufgrund des vorhandenen C-Codes ist bereits bekannt, dass für die \texttt{strcpy()}-Funktion ein \SI{64}{Byte} großes Charakter-Array (\texttt{char data[64]}) als Ziel des Kopiervorgangs reserviert wurde. Läge der C-Code nicht vor, könnte man durch den hexadezimalen Wert \texttt{0x40} die maximale Speichergröße von \SI{64}{Byte} feststellen.        
       \item \texttt{0x000000000040060b <+59>:    retq}\\
         Nach der Ausführung dieser Instruktion muss der Befehlszeiger (IP, bei x64 RIP abgekürzt) auf die Speicheradresse \texttt{0x40064c} innerhalb der \texttt{main()}-Funktion zeigen.
 \end{itemize}
@@ -162,7 +162,12 @@ Die ersten \SI{8}{Byte} entsprechen der hexadezimalen Darstellung der Zeichenfol
 
 Der linke Teil entspricht dem Basepointer (RBP), der rechte Teil entspricht der Rücksprungadresse in die \texttt{main()}-Funktion. Wird diese Adresse mit der Speicheradresse der \texttt{pwnd()}-Funktion überschrieben, so springt das Programm zur Laufzeit in die \texttt{pwnd()}-Funktion und führt diese aus.
  
-Mit den folgenden Befehlen wird die \texttt{go()}-Funktion disassembliert, um die Startwert der \texttt{go()}-Funktion festzustellen. Im Anschluss werden die 12-mal \SI{8}{Byte} großen Speicheradressen ausgegeben und zwei Byte der Rücksprungadresse \texttt{0x40064c} modifiziert. Danach wird das Programm weiter ausgeführt und wie springt in die \texttt{pwnd()}-Funktion.
+Mit den folgenden Befehlen wird die \texttt{go()}-Funktion disassembliert, 
+um den Startwert der \texttt{go()}-Funktion festzustellen. Im Anschluss 
+werden die 12-mal \SI{8}{Byte} großen Speicheradressen 
+ausgegeben und 2 Byte der Rücksprungadresse \texttt{0x40064c} modifiziert. 
+Danach wird das Programm weiter ausgeführt und springt in die 
+\texttt{pwnd()}-Funktion.
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 (gdb) disas pwnd
@@ -194,7 +199,9 @@ PWND!
 (gdb)
 \end{lstlisting}
 
-Um den Aufwand einer manuellen Modifikation der Speicheradresse möglichst gering zu halten, kann man den Vorgang mit der \texttt{Perl} automatisieren:
+Um den Aufwand einer manuellen Modifikation der Speicheradresse 
+möglichst gering zu halten, kann man den Vorgang mit der \texttt{Perl} 
+automatisieren:
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 (gdb) run `perl -e 'print "A"x72 . "\x0c\x06\x40"'`
@@ -204,7 +211,8 @@ PWND!
 (gdb)
 \end{lstlisting}
 
-Dabei werden insgesamt \SI{72}{Byte} mit dem Zeichen \texttt{A} überschrieben und \SI{3}{Byte} mit hexadezimalen Werten:
+Dabei werden insgesamt \SI{72}{Byte} mit dem Zeichen \texttt{A} 
+überschrieben und \SI{3}{Byte} mit hexadezimalen Werten:
 
 \begin{itemize}
       \item \SI{64}{Byte} Speicherplatz der \texttt{data}-Variablen    
@@ -214,39 +222,81 @@ Dabei werden insgesamt \SI{72}{Byte} mit dem Zeichen \texttt{A} überschrieben u
 
 \textbf{Hinweis:}
 
-Wird zur Nachstellung des Beispiels ein veralteter \texttt{gcc}-Compiler in der Version 3.x\footnote{http://www.trapkit.de/papers/gcc\_stack\_layout\_v1\_20030830.pdf} verwendet, ist es möglich, dass dieses Beispiel nicht funktioniert!
+Wird zur Nachstellung des Beispiels ein veralteter \texttt{gcc}-Compiler 
+in der Version 3.x\footnote{http://www.trapkit.de/papers/gcc\_stack\_layout\_v1\_20030830.pdf} 
+verwendet, ist es möglich, dass dieses Beispiel nicht funktioniert!
 
 \subsection{Maßnahmen zur Behebung von Overflow-Schwachstellen}
 
-In den folgenden Abschnitten werden Möglichkeiten beschrieben, wie man typische Overflow-Schwachstellen innerhalb eines Quelltextes aufspüren und beheben kann. Die folgend gezeigten Beispiele beziehen sich auf das im vorhergehenden Abschnitt beschriebe Quellcodebeispiel.
+In den folgenden Abschnitten werden Möglichkeiten beschrieben, wie man 
+typische Overflow-Schwachstellen innerhalb eines Quelltextes aufspüren 
+und beheben kann. Die folgend gezeigten Beispiele beziehen sich auf das 
+im vorhergehenden Abschnitt beschriebe Quellcodebeispiel.
 
 \subsubsection{Lexikalische Quellcode-Überprüfung}
 
-Für eine lexikalische Überprüfung des Quellcodes können eine Vielzahl von Tools eingesetzt werden. Die Methoden reichen dabei von einer rudimentären grep-Analyse, über komplexe und meist kommerzielle statische Quellcodescanner-Lösungen (z.B. Fortify oder Checkmarx) bis hin zu Lösungen, die den Quellcode einer Anwendung sowohl statisch analysieren und zur Ausführung bringen um Laufzeitfehler erkennen zu können (z.B. Seeker)
-Eine Liste von potentiell unsicheren C-Funktionen und deren „sicheren“ Derivate sind in den folgenden beiden, vom ISO-Komitee herausgegeben, Dokumenten zu finden:
+Für eine lexikalische Überprüfung des Quellcodes können eine Vielzahl 
+von Tools eingesetzt werden. Die Methoden reichen dabei von einer 
+rudimentären grep-Analyse, über komplexe und meist kommerzielle 
+statische Quellcodescanner-Lösungen (z.B. Fortify oder Checkmarx) 
+bis hin zu Lösungen, die den Quellcode einer Anwendung sowohl statisch 
+analysieren und zur Ausführung bringen um Laufzeitfehler erkennen zu 
+können (z.B. Seeker)
+Eine Liste von potentiell unsicheren C-Funktionen und deren „sicheren“ 
+Derivate sind in den folgenden beiden, vom ISO-Komitee herausgegeben, 
+Dokumenten zu finden:
 
 \begin{itemize}
       \item TR 24731-1\footnote{http://www.open-std.org/JTC1/SC22/WG14/www/docs/n1225.pdf}    
       \item TR 24731-2\footnote{http://www.open-std.org/JTC1/SC22/WG14/www/docs/n1337.pdf}
 \end{itemize}
 	
-Die beiden Dokumente werden in Foren und Fachkreisen kontrovers diskutiert, dennoch ist das Dokument TR 24731-1 in die Entwicklung der Microsofts Standard-C Bibliothek eingeflossen. Weiterhin wurden Empfehlungen aus den Dokumenten, wie z.B. die Entfernung der im C99-Standard noch enthaltenen \texttt{gets()}-Funktion, im neuen C-Standard (C11) umgesetzt.
-Im Folgenden sollen nur zwei Beispiele für eine lexikalische Suche nach unsicheren Funktionen am Quellcode aus dem vorhergehenden Abschnitt vorgenommen werden:
+Die beiden Dokumente werden in Foren und Fachkreisen kontrovers 
+diskutiert, dennoch ist das Dokument TR 24731-1 in die Entwicklung 
+der Microsoft Standard-C Bibliothek eingeflossen. Weiterhin wurden 
+Empfehlungen aus den Dokumenten, wie z.B. die Entfernung der im 
+C99-Standard noch enthaltenen \texttt{gets()}-Funktion, im neuen 
+C-Standard (C11) umgesetzt.
+Im Folgenden sollen nur zwei Beispiele für eine lexikalische Suche 
+nach unsicheren Funktionen am Quellcode aus dem vorhergehenden 
+Abschnitt vorgenommen werden:
 \par\medskip 
-Durch \texttt{grep()} werden sämtliche Zeilen des Quellcodebeispiels ausgegeben, in denen die Funktionen \texttt{strcpy()} und \texttt{gets()} aufgerufen werden. Bei diesem Vorgehen obliegt es dem Entwickler, diese Stellen im Quellcode eingehend auf Schwachstellen zu untersuchen und die unsicheren Funktionen durch die empfohlen Funktionsderivate zu ersetzen.
+Durch \texttt{grep()} werden sämtliche Zeilen des Quellcodebeispiels 
+ausgegeben, in denen die Funktionen \texttt{strcpy()} und \texttt{gets()} 
+aufgerufen werden. Bei diesem Vorgehen obliegt es dem Entwickler, diese 
+Stellen im Quellcode eingehend auf Schwachstellen zu untersuchen und 
+die unsicheren Funktionen durch die empfohlen Funktionsderivate zu 
+ersetzen.
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 [florian@audit exploit]$ grep -nE 'strcpy|gets' *.c
 poc.c:9:        strcpy(data,input);
 \end{lstlisting}
 
-Es ist abzusehen, dass bei umfangreichen Quelltextanalysen eine solch rudimentäre Analyse zu einer sehr hohen "False-Postives“"-Rate führt. Aufgrund dieser Tatsache wurden lexikalische Quellcodescanner mit Ziel entwickelt, die Effizienz der Methode zu verbessern.
+Es ist abzusehen, dass bei umfangreichen Quelltextanalysen eine solch 
+rudimentäre Analyse zu einer sehr hohen "False-Postives"-Rate führt. 
+Aufgrund dieser Tatsache wurden lexikalische Quellcodescanner mit dem 
+Ziel entwickelt, die Effizienz der Methode zu verbessern.
 
-Effiziente Quellcodescanner reduzieren die Rate der gefundenen "False-Postives" beispielsweise durch die Verwendung interner Datenbanken, die  potentiell unsichere Quellcodefragmente mit in der Datenbank hinterlegen Codefragmenten abgleichen. Dabei wird weiterhin versucht, den Entwickler durch entsprechende Kommentare zu einer möglicherweise gefundenen Schwachstelle zu unterstützen. Ein Quellcodescanner sollte weder "False-Postives" noch "False-Negatives" produzieren. Dabei sollten "False Negatives" nach Möglichkeit nie vorkommen, da diese im Gegensatz zu "False Positives" zu Sicherheitsproblemen führen können.
+Effiziente Quellcodescanner reduzieren die Rate der gefundenen 
+"False-Postives" beispielsweise durch die Verwendung interner 
+Datenbanken, die  potenziell unsichere Quellcodefragmente mit in 
+der Datenbank hinterlegten Codefragmenten abgleichen. Dabei wird 
+weiterhin versucht, den Entwickler durch entsprechende Kommentare zu 
+einer möglicherweise gefundenen Schwachstelle zu unterstützen. Ein 
+Quellcodescanner sollte weder "False-Postives" noch "False-Negatives" 
+produzieren. Dabei sollten "False Negatives" nach Möglichkeit nie 
+vorkommen, da diese im Gegensatz zu "False Positives" zu 
+Sicherheitsproblemen führen können.
 
-Im Folgenden soll der frei verfügbare Quellcodescanner RATS\footnote{https://www.fortify.com/downloads2/public/rats-2.3-2.tar.gz} (Rough Auditing Tool for Security) vorgestellt werden. RATS ist in der Lage, C-, C++-, PHP-, Perl- und Python-Quelltext nach sicherheitsrelevanten Fehlern zu untersuchen. Schwerpunktmäßig berücksichtigt RATS dabei Buffer-Overflow- und Race-Condition-Schwachstellen.
+Im Folgenden soll der frei verfügbare Quellcodescanner RATS\footnote{https://www.fortify.com/downloads2/public/rats-2.3-2.tar.gz} 
+(Rough Auditing Tool for Security) vorgestellt werden. RATS ist in der 
+Lage, C-, C++-, PHP-, Perl- und Python-Quelltext nach 
+sicherheitsrelevanten Fehlern zu untersuchen. Schwerpunktmäßig 
+berücksichtigt RATS dabei Buffer-Overflow- und Race-Condition-Schwachstellen.
 
-[1] bietet eine detaillierte Einführung in die grundlegenden Prinzipien der sicheren Softwareentwicklung sowie in die Verwendung von RATS.
+[1] bietet eine detaillierte Einführung in die grundlegenden Prinzipien 
+der sicheren Softwareentwicklung sowie in die Verwendung von RATS.
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 [florian@audit exploit]$ rats -i --resultsonly  *.c
@@ -260,19 +310,38 @@ Check to be sure that argument 2 passed to this function call will not copy
 more data than can be handled, resulting in a buffer overflow.
 \end{lstlisting}
 
-Bei der Ausgabe von RATS wird ein Nutzer gleich zu Beginn auf die Verwendung von Variablen mit fixer Puffergröße aufmerksam gemacht. Darüber hinaus wird darauf hingewiesen, dass man diese Puffer in Bezug auf potentielle Buffer-Overflow-Schwachstellen überprüfen sollte.
+Bei der Ausgabe von RATS wird ein Nutzer gleich zu Beginn auf die 
+Verwendung von Variablen mit fixer Puffergröße aufmerksam gemacht. 
+Darüber hinaus wird darauf hingewiesen, dass man diese Puffer in 
+Bezug auf potenzielle Buffer-Overflow-Schwachstellen überprüfen sollte.
 
-Im weiteren Verlauf der Ausgabe wird auf die Verwendung der unsicheren  \texttt{strcpy()}-Funktion und auf deren sichere Implementierung unter Berücksichtigung der benötigten Speichergröße des Zielpuffers hingewiesen.
+Im weiteren Verlauf der Ausgabe wird auf die Verwendung der 
+unsicheren \texttt{strcpy()}-Funktion und auf deren sichere 
+Implementierung unter Berücksichtigung der benötigten Speichergröße 
+des Zielpuffers hingewiesen.
 
 \subsubsection{Semantische Quellcode-Überprüfungen}
 
-Es existiert neben der rein lexikalischen Quelltextanalyse ein weiteres Analyseverfahren zur statischen Codeanalyse. Eine semantische Quellcode Analyse erlaubt es, die lexikalischen Bedeutungen innerhalb des Quelltextes in Bezug auf ihren Bedeutungszusammenhang auszuwerten. Dabei bedient sich diese Analysemethode einer Datenflussanalyse und ist somit in der Lage, detaillierte Rückschlüsse über laufende Vorgänge innerhalb eines Programms zuzulassen.
+Es existiert neben der rein lexikalischen Quelltextanalyse ein weiteres 
+Analyseverfahren zur statischen Codeanalyse. Eine semantische 
+Quellcode-Analyse erlaubt es, die lexikalischen Bedeutungen innerhalb des 
+Quelltextes in Bezug auf ihren Bedeutungszusammenhang auszuwerten. 
+Dabei bedient sich diese Analysemethode einer Datenflussanalyse und ist 
+somit in der Lage, detaillierte Rückschlüsse über laufende Vorgänge 
+innerhalb eines Programms zuzulassen.
 
 \minisec{Grundlegende Überprüfungen mit dem Compiler}
 
-Bereits ein Compiler verfügt bereits meist über grundlegende Techniken um mindestens eine lexikalische und zusätzliche eine semantische Analyse des Quellcodes durchzuführen. Der GNU C Compiler verfügt über verschiedene Optionen, die eine Fehlervermeidung oder eine Fehlersuche unterstützen.
+Bereits ein Compiler verfügt bereits meist über grundlegende Techniken, 
+um mindestens eine lexikalische und zusätzlich eine semantische Analyse 
+des Quellcodes durchzuführen. Der GNU C Compiler verfügt über verschiedene 
+Optionen, die eine Fehlervermeidung oder eine Fehlersuche unterstützen.
 
-Wird bei Aufruf des GNU C Compilers die Option \texttt{–Wall} angegeben, veranlasst dies den Compiler dazu, eine Überprüfung des Quelltextes während des Kompilierens durchzuführen. Um die Meldungen des Compiler offensichtliche zu gestalten, wir die \texttt{main()}-Funktion durch eine folgende Codezeilen ergänzt:
+Wird bei Aufruf des GNU C Compilers die Option \texttt{–Wall} angegeben, 
+veranlasst dies den Compiler dazu, eine Überprüfung des Quelltextes 
+während des Kompilierens durchzuführen. Um die Meldungen des Compiler 
+offensichtlich zu gestalten, wird die \texttt{main()}-Funktion durch 
+die folgenden Codezeilen ergänzt:
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 int main(int argc, char *argv[]) {
@@ -284,7 +353,8 @@ int main(int argc, char *argv[]) {
 }
 \end{lstlisting}
 
-Wird der Quellcode jetzt mit der –Wall Funktion kompiliert erhält man folgende Compiler-Warnungen:
+Wird der Quellcode jetzt mit der – Wall-Funktion kompiliert erhält man 
+folgende Compiler-Warnungen:
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 [florian@audit exploit]$ gcc -Wall poc.c -o poc
@@ -295,17 +365,31 @@ poc.c:31:1: warning: control reaches end of non-void function [-Wreturn-type]
 }
 \end{lstlisting}
 
-Der GNU C Compiler macht den Entwickler darauf aufmerksam, dass er zum einen die unsichere und veraltete \texttt{gets()}-Funktion verwendet und darauf, dass die \texttt{main()}-Funktion über keinen Return-Wert am Ende verfügt.
+Der GNU C Compiler macht den Entwickler darauf aufmerksam, dass er zum 
+einen die unsichere und veraltete \texttt{gets()}-Funktion verwendet und 
+zum anderen, dass die \texttt{main()}-Funktion über keinen Return-Wert am 
+Ende verfügt.
 
-Anhand dieses Beispiels ist ersichtlich, dass der Compiler zwar in der Lage ist, Sicherheitsüberprüfungen auf lexikalischer und semantischer Ebene durchzuführen jedoch bei Weitem offensichtlich nicht dazu in der Lage ist, unsichere Funktionsaufrufe wie z.B. den Aufruf der \texttt{strcpy()}-Funktion innerhalb der \texttt{go()}-Funktion zu erkennen.
+Anhand dieses Beispiels ist ersichtlich, dass der Compiler zwar in der 
+Lage ist, Sicherheitsüberprüfungen auf lexikalischer und semantischer 
+Ebene durchzuführen, jedoch offensichtlich nicht dazu in der Lage ist, 
+unsichere Funktionsaufrufe wie z.B. den Aufruf der \texttt{strcpy()}-Funktion 
+innerhalb der \texttt{go()}-Funktion zu erkennen.
 
 \minisec{Erweiterte Überprüfung mit Splint}
 
-Splint\footnote{http://www.splint.org/} ist ein statischer Quellcodescanner der in der Lage ist, eine weitaus detaillierte semantische Analyse als der GNU C Compiler vorzunehmen.
+Splint\footnote{http://www.splint.org/} ist ein statischer Quellcodescanner 
+der in der Lage ist, eine weitaus detaillierte semantische Analyse als 
+der GNU C Compiler vorzunehmen.
 
-Splint ist in der Lage sogenannte LINT\footnote{http://en.wikipedia.org/wiki/Lint\_(software)}-Überprüfungen durchzuführen. Zu diesen Überprüfungen gehört beispielsweise die Suche nach Endlosschleifen, falschen Deklarationen oder ignorierten Rückgabewerten.
+Splint ist in der Lage, sogenannte LINT\footnote{http://en.wikipedia.org/wiki/Lint\_(software)}-Überprüfungen 
+durchzuführen. Zu diesen Überprüfungen gehört beispielsweise die Suche 
+nach Endlosschleifen, falschen Deklarationen oder ignorierten Rückgabewerten.
 
-Im folgenden Beispiel wird der Beispielquelltext durch die Angabe des Parameters \texttt{+bounds-write} auf potentiellen Schwachstellen hin untersucht, die aufgrund eines schreibenden Speicherzugriffs zu einem Buffer-Overflow führen können.
+Im folgenden Beispiel wird der Beispielquelltext durch die Angabe des 
+Parameters \texttt{+bounds-write} auf potenzielle Schwachstellen hin 
+untersucht, die aufgrund eines schreibenden Speicherzugriffs zu einem 
+Buffer-Overflow führen können.
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 [florian@audit exploit]$ splint +bounds-write poc.c
@@ -328,26 +412,57 @@ poc.c:25:2: Return value (type int) ignored: go(argv[1])
   [...]
 \end{lstlisting}
 
-Der Scanner erkennt im Gegensatz zum GNU C Compiler, dass es durch den Aufruf der \texttt{strcpy()}-Funktion zu einem möglichen Speicherüberlauf kommen könnte. Durch die Verwendung von Annotationen innerhalb des zu prüfenden Quellcodes können vom Entwickler neben programmatischen Fehlern auch logische Fehler entdeckt werden. Beispielsweise können durch  Annotationen zwingend zu erfüllende Bedingungen festgelegt werden, die durch Splint geprüft werden, bevor eine bestimmte Funktion aufgerufen werden kann.
+Der Scanner erkennt im Gegensatz zum GNU C Compiler, dass es durch den 
+Aufruf der \texttt{strcpy()}-Funktion zu einem möglichen Speicherüberlauf 
+kommen könnte. Durch die Verwendung von Annotationen innerhalb des zu 
+prüfenden Quellcodes können vom Entwickler neben programmatischen Fehlern 
+auch logische Fehler entdeckt werden. Beispielsweise können durch  
+Annotationen zwingend zu erfüllende Bedingungen festgelegt werden, 
+die durch Splint geprüft werden, bevor eine bestimmte Funktion aufgerufen 
+werden kann.
 
 \subsubsection{Programmanalyse zur Programmlaufzeit}
 
-Neben den beschreiben Möglichkeiten zur statischen Quellcodeanalyse besteht darüber hinaus die Möglichkeit, ein Programm zur Laufzeit auf Schwachstellen zu überwachen bzw. zu untersuchen, um gezielt Overflow-Schwachstellen die erst zur Programmlaufzeit entstehen ausfindig zu machen.
+Neben den beschreiben Möglichkeiten zur statischen Quellcodeanalyse 
+besteht darüber hinaus die Möglichkeit, ein Programm zur Laufzeit auf 
+Schwachstellen zu überwachen bzw. zu untersuchen, um gezielt 
+Overflow-Schwachstellen, die erst zur Programmlaufzeit entstehen 
+ausfindig zu machen.
 
-Ein mögliches Beispiel für eine potentielle Overflow-Schwachstelle die erst während der Laufzeit eines Programmes auftreten kann, ist der Aufruf der C-Funktion \texttt{malloc()} die erst zur Laufzeit eines Programms Speicher im Heap alloziert.
+Ein mögliches Beispiel für eine potenzielle Overflow-Schwachstelle, die 
+erst während der Laufzeit eines Programmes auftreten kann, ist der 
+Aufruf der C-Funktion \texttt{malloc()}, die erst zur Laufzeit eines 
+Programms Speicher im Heap alloziert.
 
-Ein typisches Tool zur Programmanalyse zur Laufzeit ist ein Debugger. Mit einem Debugger kann man Programme zeilenweise abarbeiten und dabei den aktuellen Zustand bzw. den Wert von Variablen analysieren. Die Qualität der Überprüfung des Programmcodes unter Zuhilfenahme eines Debuggers hängt stark von der Fachexpertise eines Entwicklers ab. Für umfangreiche Analyse von Programmen eignet sich ein Debugger nur bedingt.
+Ein typisches Tool zur Programmanalyse zur Laufzeit ist ein Debugger. 
+Mit einem Debugger kann man Programme zeilenweise abarbeiten und dabei 
+den aktuellen Zustand bzw. den Wert von Variablen analysieren. Die Qualität 
+der Überprüfung des Programmcodes unter Zuhilfenahme eines Debuggers 
+hängt stark von der Fachexpertise eines Entwicklers ab. Für die umfangreiche 
+Analyse von Programmen eignet sich ein Debugger nur bedingt.
 
-Aus diesem Grund existieren spezielle Tools, die zur dynamischen Analyse von umfangreicheren Programmen oder Quelltexten eingesetzt werden können. Im Folgenden soll die Werkzeugsammlung Valgrind vorgestellt werden.
+Aus diesem Grund existieren spezielle Tools, die zur dynamischen Analyse 
+von umfangreicheren Programmen oder Quelltexten eingesetzt werden können. 
+Im Folgenden soll die Werkzeugsammlung Valgrind vorgestellt werden.
 
 \minisec{Programmanalyse zur Laufzeit mit Valgrind}
 
-Valgrind stellt eine Werkzeugsammlung zur dynamischen Fehleranalyse zur Programmlaufzeit dar. Dabei wird ein zu analysierendes Programm nicht auf der nativen Host-CPU, sondern innerhalb einer virtuellen Umgebung ausgeführt.
-Vagrind übersetzt das Programm zu diesem Zweck in einen plattformunabhängigen Byte-Code, in den sogenannten Vex IR. Nach der Konvertierung des Programms in den Byte-Code können die verschiedenen Valgrind-Tools auf das zu analysierenden Programm angewendet werden.
+Valgrind stellt eine Werkzeugsammlung zur Programmlaufzeit dar, die 
+dynamischen Fehleranalyse durchführt. Dabei wird ein zu analysierendes 
+Programm nicht auf der nativen Host-CPU, sondern innerhalb einer 
+virtuellen Umgebung ausgeführt.
+Vagrind übersetzt das Programm zu diesem Zweck in einen 
+plattformunabhängigen Byte-Code, in den sogenannten Vex IR. Nach der 
+Konvertierung des Programms in den Byte-Code können die verschiedenen 
+Valgrind-Tools auf das zu analysierenden Programm angewendet werden.
 
-Die Konvertierung des nativen Programms nach Vex IR reduziert die Ausführungsgeschwindigkeit eines Programmes um ein vielfaches, ermöglicht aber gleichzeitig eine detaillierte Analyse  benötigter (Speicher-)Ressourcen oder einzelner CPU-Register.
+Die Konvertierung des nativen Programms nach Vex IR reduziert die 
+Ausführungsgeschwindigkeit eines Programmes um ein Vielfaches, 
+ermöglicht aber gleichzeitig eine detaillierte Analyse  benötigter 
+(Speicher-)Ressourcen oder einzelner CPU-Register.
 
-Für das folgende Beispiel wird die \texttt{go()}-Funktion um zwei \texttt{malloc()}-Funktionsaufrufe erweitert:
+Für das folgende Beispiel wird die \texttt{go()}-Funktion um 2 
+\texttt{malloc()}-Funktionsaufrufe erweitert:
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 int go(char *input) {
@@ -360,13 +475,17 @@ int go(char *input) {
 }
 \end{lstlisting}
 
-Anschließend wird das Programm kompiliert und mit Valgrind aufgerufen, als Startparameter wird 84-mal der Buchstabe A übergeben. Dabei kommt es, wie aus den vorhergehen Beispielen bereits bekannt, zu einem Buffer-Overflow:
+Anschließend wird das Programm kompiliert und mit Valgrind aufgerufen, 
+als Startparameter wird 84-mal der Buchstabe A übergeben. Dabei kommt 
+es, wie aus den vorhergehen Beispielen bereits bekannt, zu einem 
+Buffer-Overflow:
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 valgrind --tool=memcheck --leak-check=full ./poc `perl -e 'print "A"x84'`
 \end{lstlisting}
 
-Valgrind überprüft nun das Programm \texttt{poc} zur Laufzeit und generiert folgende Ausgabe:
+Valgrind überprüft nun das Programm \texttt{poc} zur Laufzeit und 
+generiert folgende Ausgabe:
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 [...]
@@ -388,4 +507,8 @@ Valgrind überprüft nun das Programm \texttt{poc} zur Laufzeit und generiert fo
 [...]
 \end{lstlisting}
 
-Wie der Ausgabe zu entnehmen ist, erkennt Valgrind zum einen, dass es beim Aufruf der \texttt{strcpy()}-Funktion zu einem Überlauf von \SI{20}{Byte} kommt und zum anderen, dass der \SI{8}{Byte} große (reservierte) Speicherblock aufgrund der fehlenden \texttt{free()}-Funktion nicht mehr freigeben wird und es zu einem unnötigen Verbrauch von Heap-Speicher kommt.
+Wie der Ausgabe zu entnehmen ist, erkennt Valgrind zum einen, dass es 
+beim Aufruf der \texttt{strcpy()}-Funktion zu einem Überlauf von \SI{20}{Byte} 
+kommt und zum anderen, dass der \SI{8}{Byte} große (reservierte) 
+Speicherblock aufgrund der fehlenden \texttt{free()}-Funktion nicht mehr 
+freigeben wird und es zu einem unnötigen Verbrauch von Heap-Speicher kommt.

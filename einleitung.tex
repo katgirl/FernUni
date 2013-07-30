@@ -1,36 +1,5 @@
 \section{Einleitung}\label{einleitung}
 
-
-% Vorschlag, wir lassen uns auf nichts festnagelen sondern halten die Einleitung generisch :)
-% Bitte meinen Kram nur als Vorschlag sehen! 
-
-
-%In kommerziellen Softwareprojekten arbeitet ein geschlossener Kreis an
-%Personen an dem Code. Dieser wird dann in der Regel vor Veröffentlichung durch 
-%entsprechende Experten geprüft und freigegeben.
-%\\
-%Bei OpenSource Projekten, wo der der Quellcode frei zugänglich ist und eine Mitarbeit 
-%auch gewünscht ist, kann hingegen jeder der programmieren kann oder auch denkt den Code
-%erweitern und eigene Module entwickeln.
-%\\
-%Bei vielen Modulen wird dabei oft die API ignoriert oder es schleichen sich schnell 
-%kritische Sicherheitlücken ein.
-%\\
-%In der nachfolgenden Hausarbeit geht es um die Sicherheit in der Programmierung. 
-%Dabei soll auf typische Fehler eingegangen werden und anhand von unterschiedlichen 
-%Angriffsszenarien, Techniken und Technologien gezeigt werden wo die häufigsten 
-%Schwachstellen liegen und wie man diese ganz einfach beseitigen kann.
-%Ausgangspunkt ist die Modulare Objekt orientierter Programmierung, 
-%die heute in fast allen Softwareprojekten zur Anwendung kommt.\\
-
-% ToDo: In der Einleitung die Vielschichtigkeit der ganzen Thematik betonen, 
-% sichere Programmierug hängt von vielen Faktoren ab, z.B.
-%
-% Qualität des Codereviews u.U. belegen, dass Opensource-Entwicklungen besser/schlecher/gleich im Vergleich mit 
-% mit "komerziellen" Entwicklungen abschneiden
-%
-% Den Begriff "kommerziell" im Kontext dieser Arbeit klar abgrenzen
-
 Jede Entwicklerin und jeder Entwickler möchte neben der Funktionalität 
 auch die Sicherheit ihrer/seiner Software garantieren.
 
@@ -45,7 +14,7 @@ herauskristallisiert:
  	   Eine Softwarelösung führt eine ausreichende Überprüfung von 
  	   Benutzerberechtigungen durch und erlaubt nur legitimen Benutzern 
  	   den Zugriff auf (vertrauliche) Daten. 
- 	   Die Verdaulichkeit von Daten hat implizit rechtliche Auswirkungen 
+ 	   Die Vertraulichkeit von Daten hat implizit rechtliche Auswirkungen 
  	   und ist in vielen Ländern durch entsprechende nationale Gesetze 
  	   geregelt (z.B. Bundesdatenschutzgesetz). Neben rechtlichen 
  	   Auswirkungen hat die Vertraulichkeit von Daten im Hinblick auf 
@@ -54,11 +23,11 @@ herauskristallisiert:
 	  
 	  \item\textbf{Integrität}\\
 	   Eine Softwarelösung verhindert eine Manipulation von Daten oder 
-	   stellt Methoden (z.B. Hashwertbildung) zu Feststellung einer 
+	   stellt Methoden (z.B. Hashwertbildung) zur Feststellung einer 
 	   unerlaubten Modifikation der Daten bereit.
 	  
-	  \item\textbf{Verfügbarkeit} 
-	   Eine Softwarelösung muss funktionieren, auch wenn ein Fehler- 
+	  \item\textbf{Verfügbarkeit} \\
+	   Eine Softwarelösung muss funktionieren, auch wenn ein Fehler 
 	   oder Problemfall auftritt. Die Verfügbarkeit ist aus wirtschaftlicher 
 	   Sicht analog zur Vertraulichkeit zu bewerten. Fällt in einem 
 	   Unternehmen eine zentrale Systemkomponente (z.B. SAP-System) 
