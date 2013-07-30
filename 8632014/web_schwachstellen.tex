@@ -9,7 +9,7 @@ Anwendungen auf, die nicht vertrauenswürdige Eingaben
 \subsubsection{SQL-Injection-Schwachstellen}
 
 Die SQL-Injection-Technik wurde 1998 im Phrack Magazin
-\footnote{http://www.phrack.org/issues.html?issue=54\&id=8\#article} 
+\footnote{\url{http://www.phrack.org/issues.html?issue=54\&id=8\#article}} 
 einem breiten Publikum vorstellt. Mithilfe einer SQL-Injection-Schwachstelle 
 kann ein Angreifer über einen serverseitig unzureichend 
 validierten Eingabeparameter beliebige Datenbankbefehle an eine der 
@@ -52,9 +52,10 @@ UPDATE users SET isAdmin=1 WHERE id=235;
 
 Um potenzielle SQL-Injection-Schwachstellen innerhalb einer Anwendung 
 zu finden, existieren eine Vielzahl von kommerziellen Anwendungen 
-(z.B. Havij\footnote{http://www.itsecteam.com/products/havij-v116-advanced-sql-injection/}) 
-als auch Open-Source-Tools (z.B. Sqlmap\footnote{http://sqlmap.org/}).
+(z.B. Havij\footnote{\url{http://www.itsecteam.com/products/havij-v116-advanced-sql-injection/}}) 
+als auch Open-Source-Tools (z.B. Sqlmap\footnote{\url{http://sqlmap.org/}}).
 
+\newpage
 \minisec{Sqlmap}
 
 Bei Sqlmap handelt es sich um ein Open-Source-Tool um SQL-Injection-Schwachstellen 
@@ -122,7 +123,7 @@ Datenbankbenutzer enumeriert werden oder sogar Betriebssystembefehle
 
 Für weitere Hintergrundinformationen zu den einzelnen 
 SQL-Injection-Techniken wird auf das SQL-Injection-Cheat-Sheet
-\footnote{http://ferruh.mavituna.com/sql-injection-cheatsheet-oku} 
+\footnote{\url{http://ferruh.mavituna.com/sql-injection-cheatsheet-oku}} 
 verwiesen.
 
 \subsubsection{OS-Command-Injection}
@@ -164,7 +165,7 @@ durchzuführen.
 \subsubsection{Maßnahmen zur Behebung SQL-Injection-Schwachstellen}
 In diesem Abschnitt werden mögliche Maßnahmen zur Behebung von 
 SQL-Injection-Schwachstellen vorgestellt.
-
+\newpage
 \minisec{Escapen von Metazeichen}\label{escpace_metazeichen}
 
 Werden Strings für Datenbankabfragen dynamisch generiert, dürfen dabei 
@@ -188,7 +189,7 @@ Datenbanksystem nicht mehr interpretiert werden.
 An dieser Stelle wird jedoch empfohlen, aufgrund der Fehlerträchtigkeit 
 von selbst entwickelten "Escaping"-Lösungen auf verbreitete 
 (Framework-)Lösungen wie beispielsweise die OWASP Enterprise 
-Security API\footnote{https://www.owasp.org/index.php/Category:OWASP\_Enterprise\_Security\_API} 
+Security API\footnote{\url{https://www.owasp.org/index.php/Category:OWASP\_Enterprise\_Security\_API}} 
 zurückzugreifen.
 
 \minisec{Verwendung von Prepared Statements}
@@ -220,8 +221,9 @@ OS-Command-Injection-Schwachstellen vorgestellt.
 
 Identisch mit den Empfehlungen zur Behebung einer SQL-Injection-Schwachstelle, 
 allerdings betrifft dieses hierbei keine Datenbank-Metazeichen sondern die 
-Shell-Metazeichen.
+Shell-\\Metazeichen.
 
+\newpage
 \minisec{Benutzereingaben als Übergabeparameter verhindern}
 
 Um beim Aufruf einer Konsolenanwendung aus einem laufenden Programm 
@@ -265,6 +267,7 @@ Angreifer beispielsweise dadurch erreichen, indem er dem Opfer
 eine E-Mail zustellt, die einen Link mit entsprechend präparierten 
 Parameterwerten enthält.
 
+\newpage
 \minisec{Beispiel für eine Cross-Site-Scripting-Schwachstelle (reflexiv)}
 
 Der folgende Beispielcode gibt den Wert des Parameters \texttt{msg} 
@@ -307,15 +310,18 @@ des Anwenders interpretiert und ausgeführt (siehe Abbildung
  \label{fig:xss_2} 
 \end{figure}
 
+\newpage
 Betrachtet man den Quellcode von Abbildung \ref{fig:xss_2}, so 
 erkennt man den in HTML eingebetteten JavaScript-Code:
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 <html>
-<body>
-<h1>Beispiel: Ausgabe des GET-Parameters "msg"</h1>
-<br>
-String: das ist ein beispiel<script>alert('XSS')</script></body>
+  <body>
+    <h1>Beispiel: Ausgabe des GET-Parameters "msg"</h1>
+    <br>
+    String: das ist ein beispiel
+    <script>alert('XSS')</script>
+  </body>
 </html>
 \end{lstlisting}
 
@@ -326,7 +332,7 @@ Cross-Site-Scripting-Schwachstellen vorgestellt.
 
 \subsubsection{Encoding von HTML-Metazeichen}
 	
-Durch HTML-Encoding\footnote{http://en.wikipedia.org/wiki/Character\_encodings\_in\_HTML} 
+Durch HTML-Encoding\footnote{\url{http://en.wikipedia.org/wiki/Character\_encodings\_in\_HTML}} 
 werden bestimmte HTML-Metazeichen auf äquivalente Zeichenfolgen abgebildet.
 
 Beim Aufruf der URL aus dem Beispiel würde der Wert des Parameters 
@@ -334,10 +340,12 @@ Beim Aufruf der URL aus dem Beispiel würde der Wert des Parameters
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 <html>
-<body>
-<h1>Beispiel: Ausgabe des GET-Parameters "msg"</h1>
-<br>
-String: das ist ein beispiel&lt;script&gt;alert(&#39;XSS&#39;)&lt;/script&gt;</body>
+  <body>
+    <h1>Beispiel: Ausgabe des GET-Parameters "msg"</h1>
+    <br>
+    String: das ist ein beispiel
+    &lt;script&gt;alert(&#39;XSS&#39;)&lt;/script&gt;
+  </body>
 </html>
 \end{lstlisting}
 
@@ -378,7 +386,7 @@ Durch die Einführung von HTML-5 können beispielsweise Filter, die
 lediglich auf für HTML-4.x relevante Zeichen- und Zeichenketten 
 matchen umgangen werden. Eine ausführliche Beschreibung der 
 verschiedensten Umgehungsmöglichkeiten von HTML-4-Filtern durch 
-HTML-5-Tags sind im HTML-5-Cheat-Sheet\footnote{http://html5sec.org/} 
+HTML-5-Tags sind im HTML-5-Cheat-Sheet\footnote{\url{http://html5sec.org/}} 
 zu finden.
 
 \subsubsection{Verwendung des Model-View-Controller-Pattern}

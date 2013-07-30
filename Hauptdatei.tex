@@ -110,7 +110,7 @@
 \renewcommand{\nomlabel}[1]{#1 \dotfill}
 \setlength{\nomitemsep}{-\parsep}
 \makenomenclature
-%\makeglossary
+\makeglossary
 
 % Abkürzungsverzeichnis TeTEX Version
 \usepackage[german]{nomencl}
@@ -156,14 +156,14 @@
 \newpage
 \tableofcontents
 
-% das Abkürzungsverzeichnis
-\newpage
-% Abkürzungsverzeichnis soll im Inhaltsverzeichnis auftauchen
-\addcontentsline{toc}{section}{Abkürzungsverzeichnis}
-% das Abkürzungsverzeichnis entgültige Ausgeben
-\fancyhead[L]{Abkürzungsverzeichnis} %Kopfzeile links
-\input{abkuerzungen}
-\printnomenclature
+%~ % das Abkürzungsverzeichnis
+%~ \newpage
+%~ % Abkürzungsverzeichnis soll im Inhaltsverzeichnis auftauchen
+%~ \addcontentsline{toc}{section}{Abkürzungsverzeichnis}
+%~ % das Abkürzungsverzeichnis entgültige Ausgeben
+%~ \fancyhead[L]{Abkürzungsverzeichnis} %Kopfzeile links
+%~ \input{abkuerzungen}
+%~ \printnomenclature
 
 % Definiert Stegbreite bei zweispaltigem Layout
 \setlength{\columnsep}{25pt}
@@ -206,34 +206,34 @@
 \input{fazit}
 
 
-\onecolumn
-% einfacher Zeilenabstand
-\singlespacing
-% Literaturliste soll im Inhaltsverzeichnis auftauchen
-\newpage
-\addcontentsline{toc}{section}{Literaturverzeichnis}
-% Literaturverzeichnis anzeigen
-\renewcommand\refname{Literaturverzeichnis}
-\bibliography{Hauptdatei}
-
-% Abstract
-\newpage
-\fancyhead[L]{Abstract} %Kopfzeile links
-\include{abstract}
-
-% evtl. Anhang
-\newpage
-\addcontentsline{toc}{section}{Anhang}
-\fancyhead[L]{Anhang} %Kopfzeile links
-\input{anhang}
-
-\newpage
-% Listingverzeichnis soll im Inhaltsverzeichnis auftauchen
-\addcontentsline{toc}{section}{Listingverzeichnis}
-\fancyhead[L]{Abbildungs- / Tabellen- / Listingverzeichnis} %Kopfzeile links
-\renewcommand{\lstlistlistingname}{Listingverzeichnis}
-\lstlistoflistings
-%%%%
+%~ \onecolumn
+%~ % einfacher Zeilenabstand
+%~ \singlespacing
+%~ % Literaturliste soll im Inhaltsverzeichnis auftauchen
+%~ \newpage
+%~ \addcontentsline{toc}{section}{Literaturverzeichnis}
+%~ % Literaturverzeichnis anzeigen
+%~ \renewcommand\refname{Literaturverzeichnis}
+%~ \bibliography{Hauptdatei}
+%~ 
+%~ % Abstract
+%~ \newpage
+%~ \fancyhead[L]{Abstract} %Kopfzeile links
+%~ \include{abstract}
+%~ 
+%~ % evtl. Anhang
+%~ \newpage
+%~ \addcontentsline{toc}{section}{Anhang}
+%~ \fancyhead[L]{Anhang} %Kopfzeile links
+%~ \input{anhang}
+%~ 
+%~ \newpage
+%~ % Listingverzeichnis soll im Inhaltsverzeichnis auftauchen
+%~ \addcontentsline{toc}{section}{Listingverzeichnis}
+%~ \fancyhead[L]{Abbildungs- / Tabellen- / Listingverzeichnis} %Kopfzeile links
+%~ \renewcommand{\lstlistlistingname}{Listingverzeichnis}
+%~ \lstlistoflistings
+%~ %%%%
 
 
 % das Abbildungsverzeichnis
@@ -244,14 +244,14 @@
 % Abbildungsverzeichnis endgueltig anzeigen
 \listoffigures
 
-% das Tabellenverzeichnis
-\newpage
-% Abbildungsverzeichnis soll im Inhaltsverzeichnis auftauchen
-\addcontentsline{toc}{section}{Tabellenverzeichnis}
-\fancyhead[L]{Tabellenverzeichnis} %Kopfzeile links
-% \fancyhead[L]{Abbildungsverzeichnis / Abkürzungsverzeichnis} %Kopfzeile links
-% Abbildungsverzeichnis endgueltig anzeigen
-\listoftables
+%~ % das Tabellenverzeichnis
+%~ \newpage
+%~ % Abbildungsverzeichnis soll im Inhaltsverzeichnis auftauchen
+%~ \addcontentsline{toc}{section}{Tabellenverzeichnis}
+%~ \fancyhead[L]{Tabellenverzeichnis} %Kopfzeile links
+%~ % \fancyhead[L]{Abbildungsverzeichnis / Abkürzungsverzeichnis} %Kopfzeile links
+%~ % Abbildungsverzeichnis endgueltig anzeigen
+%~ \listoftables
 
 %%%%%%%%%%%%%%%%% Eidesstattliche Erklärung %%%%%%%%%%%%%%%%%% 
 \thispagestyle{fancy} 

@@ -1,3 +1,4 @@
+\fancyhead[L]{} %Kopfzeile links
 \section{Softwareentwicklung}
 
 Die Softwareentwicklung selbst ist so alt wie das Computerzeitalter. 
@@ -12,21 +13,22 @@ Was zur Folge hat, dass auch komplexe Algorithmen in immer kürzerer Zeit
 gelöst werden. Was eigentlich als technischer Fortschritt und Verbesserung 
 angesehen werden kann, führt aber auch zu neuen Problemen.
 Um vertrauliche Informationen unleserlich zu machen, reichte es Julius Cäsar, 
-ein Stück Papyrus um einen zylindrischen Holzstab zu wickeln.\footnote{http://de.wikipedia.org/wiki/Caesar-Verschlüsselung} 
-Im zweiten Weltkrieg wurde die Chiffriermaschine Enigma \footnote{http://de.wikipedia.org/wiki/Enigma_(Maschine)} 
+ein Stück Papyrus um einen zylindrischen Holzstab zu wickeln.\footnote{\url{http://de.wikipedia.org/wiki/Caesar-Verschlüsselung}} 
+Im zweiten Weltkrieg wurde die Chiffriermaschine Enigma \footnote{\url{http://de.wikipedia.org/wiki/Enigma_(Maschine)}} 
 lange Zeit eingesetzt, um eine sichere Kommunikation zu gewährleisten. 
 Erst in den 1970er-Jahren gab es einen Wechsel von symmetrischer auf 
 asymmetrische Verschlüsselung, wobei Sender und Empfänger nicht mehr auf 
 den gleichen Schlüssel angewiesen waren. Seitdem wird der als sicher
 geltende Schlüssel gefühlt jährlich verdoppelt. Dazu kommen immer
 neuere Verschlüsselungsalgorithmen, die auf mathematischen Grundlagen basieren. 
-So wird die 1993 entwickelte Blowfish-Verschlüsselung\footnote{http://www.schneier.com/blowfish.html}
-heute bevorzugt verwendet und ersetzt damit den SHA-Algorithmus\footnote{http://csrc.nist.gov/publications/fips/fips180-2/fips180-2withchangenotice.pdf}. 
+So wird die 1993 entwickelte Blowfish-Verschlüsselung\footnote{\url{http://www.schneier.com/blowfish.html}}
+heute bevorzugt verwendet und ersetzt damit den SHA-Algorithmus\footnote{\url{http://csrc.nist.gov/publications/fips/fips180-2/fips180-2withchangenotice.pdf}}. 
 In PHP5.5 wurde Blowfish als erste Passwortverschlüsselung in die neue
 Hash-Funktion aufgenommen.   
 
 Es findet ein ständiger Wettkampf im Hardware-Bereich statt und auch die 
-immer komplexer werdenden Software-Anwendungen konkurrieren. Ein Programm, das im Jahr 2000 nach den damaligen "Sicherheitsrichtlininen" 
+immer komplexer werdenden Software-Anwendungen konkurrieren. Ein Programm, 
+das im Jahr 2000 nach den damaligen "Sicherheitsrichtlininen" 
 entwickelt wurde, gilt heute meist als risikobehaftet. So entstehen 
 neue Herausforderungen, die es zu meistern gilt. 
 Softwareentwicklungen müssen oft in einem zeitlich vorgeschriebenen 
@@ -35,17 +37,23 @@ die Software hat und für welchen Einsatzzweck sie bestimmt ist. Bei einigen
 Projekten wird dann ein Risikomanagement durchgeführt, das den 
 Schaden schon vor der eigentlichen Entwicklung abschätzen soll.
 
+\newpage
+\fancyhead[L]{\nouppercase{\leftmark}} %Kopfzeile links
 \subsection{Programmiersprachen}
 Im 21. Jahrhundert bewegt man sich, in mehrerlei Hinsicht, in einem multikulturellen 
 Umfeld. So gab es schon in den Anfängen des Computerzeitalters gleich Dutzende 
-von Programmiersprachen, die aber jeweils an spezielle Bedürfnisse angepasst waren. Mit Basic und C entstanden die ersten universellen
+von Programmiersprachen, die aber jeweils an spezielle Bedürfnisse angepasst 
+waren. Mit Basic und C entstanden die ersten universellen
 Programmiersprachen, die die Entwicklung rasch vorantrieben und heute 
-noch eingesetzt werden. Dann kam in den 1990er-Jahren das Internet, welches neue Anforderungen
-an die Programmiersprachen stellte und durch die rasche Entwicklung auch 
-viele Programmiersprachen sterben ließ, da sie mit dem Fortschritt 
-nicht mithalten konnten. Das war die Geburtsstunde der objektorientierten und skriptbasierten 
-Programmiersprachen. Durch die Globalisierung und die damit einhergehenden schnelleren Kommunikationswege sowie die Verwendung von Englisch als Weltsprache kann man sich heute auch über große 
-Distanzen austauschen und Wissen teilen. Das aktuell verbreitetste Programmierparadigma ist das Objektorientierte. Dabei wird versucht, die Daten als Objekt zu betrachten und so die 
+noch eingesetzt werden. Dann kam in den 1990er-Jahren das Internet, welches 
+neue Anforderungen an die Programmiersprachen stellte und durch die rasche 
+Entwicklung auch viele Programmiersprachen sterben ließ, da sie mit dem 
+Fortschritt nicht mithalten konnten. Das war die Geburtsstunde der 
+objektorientierten und skriptbasierten Programmiersprachen. Durch die 
+Globalisierung und die damit einhergehenden schnelleren Kommunikationswege 
+sowie die Verwendung von Englisch als Weltsprache kann man sich heute auch über große 
+Distanzen austauschen und Wissen teilen. Das aktuell verbreitetste Programmierparadigma 
+ist das Objektorientierte. Dabei wird versucht, die Daten als Objekt zu betrachten und so die 
 Komplexität zu vereinfachen, indem Redundanzen nutzbar gemacht werden.
 
 Auch heute gibt es noch zahlreiche Programmiersprachen, die ihre Anhänger
@@ -62,6 +70,7 @@ in architektonischen Mustern bereitgestellt.
 Heute gibt es zahlreiche Frameworks zu fast jeder Programmiersprache und
 jedem Anwendungsfall, daher gibt es keine allgemeingültige Definition.   
 
+\newpage
 \minisec{Framework Typen}
 \begin{itemize}
   \item Application Frameworks 
@@ -92,7 +101,7 @@ Entwicklungsumgebungen. Sowohl Open-Source als auch proprietäre
 Entwicklungsumgebungen.
 So ist die wohl bekannteste und verbreitetste Entwicklungsumgebung für
 Softwareentwicklungen die in und ursprünglich für Java geschriebene 
-Umgebung Eclipse\footnote{http://www.eclipse.org/}. Die Entwicklungsumgebung
+Umgebung Eclipse\footnote{\url{http://www.eclipse.org/}}. Die Entwicklungsumgebung
 erfreute sich nicht zuletzt durch den 2001 von IBM freigebenden Quellcode
 großer Beliebtheit. Auch die Weiterentwicklung ist zur Zeit gesichert, 
 da IBM weiterhin Entwickler für die Arbeit an der Software finanziert. 
@@ -115,7 +124,7 @@ Es gibt verschiedene Funktionsweisen:
   \item Verteilte Versionsverwaltung. 
 \end{itemize}
 Die wohl bekanntesten Vertreter solcher Software sind Subversion (SVN)
-\footnote{http://subversion.apache.org} und git\footnote{http://git-scm.com}, die
+\footnote{http://subversion.apache.org} und git\footnote{\url{http://git-scm.com}}, die
 zudem noch unter freien Lizenzen stehen.
 Dabei zählt SVN zu den zentralen Versionsverwaltung und git zur 
 verteilten Versionsverwaltung.
@@ -140,6 +149,7 @@ In Open-Source-Projekten sind solche Ticketsysteme zudem offen, sodass
 andere die Problemstellung einsehen können und ggf. einen besseren
 oder anderen Lösungsansatz vorab diskutieren können.
 
+\newpage
 \subsection{Softwarearten}
 Mit Softwarearten ist in diesem Kapitel die Art der Entstehung/Entwicklung
 der Software gemeint.
@@ -177,11 +187,11 @@ ihr Urteil darüber ab.
 Durch diese Art der Entwicklung findet gleichzeitig eine Prüfung der
 Qualität und Sicherheit der Software statt.  
 
-
+\newpage
 \subsection{Softwareentwicklung durch \textit{Security by Design}}
 Der Frauenhofer Verlag hat auch in diesem Jahr eine aktualisierte 
 Ausgabe seines Trend- und Strategieberichts zur "Entwicklung sicherer 
-Software durch Security by Design"\footnote{https://www.sit.fraunhofer.de/fileadmin/dokumente/studien_und_technical_reports/Trendbericht_Security_by_Design.pdf} 
+Software durch Security by Design"\footnote{\url{https://www.sit.fraunhofer.de/fileadmin/dokumente/studien_und_technical_reports/Trendbericht_Security_by_Design.pdf}} 
 herausgegeben.
 Dabei geht es darum, bei der Softwareentwicklung bestimmte
 Sicherheitsaspekte wie Lebenszyklus und die Integration von 

@@ -1,3 +1,4 @@
+\newpage
 \subsection{Buffer-Overflow-Schwachstellen}	
 
 Buffer-Overflow-Schwachstellen entstehen im Regelfall durch die 
@@ -54,8 +55,11 @@ int main(int argc, char *argv[]) {
  \label{fig:poc_1} 
 \end{figure}
 
+\newpage
 Im Folgenden wird das Programm analysiert und versucht, durch eine erfolgreiche Modifikation der Speicheradressen die Funktion \texttt{pwnd()} aufzurufen.
-Um das Programm zu analysieren wird der GNU Debugger\footnote{http://www.gnu.org/software/gdb} (GDB-Kurzreferenz\footnote{http://beej.us/guide/bggdb}) verwendet. Für einen ersten Überblick werden die drei Funktionen disassembliert.
+Um das Programm zu analysieren wird der GNU Debugger\footnote{\url{http://www.gnu.org/software/gdb}} 
+(GDB-Kurzreferenz\footnote{\url{http://beej.us/guide/bggdb}}) verwendet. 
+Für einen ersten Überblick werden die drei Funktionen disassembliert.
 \\
 \\
 \texttt{main()}-Funktion
@@ -74,6 +78,8 @@ Dump of assembler code for function main:
    0x000000000040064d <+41>:    retq
 End of assembler dump.
 \end{lstlisting}
+
+
 \texttt{go()}-Funktion
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 (gdb) disas go
@@ -93,6 +99,8 @@ Dump of assembler code for function go:
    0x000000000040060b <+59>:    retq
 End of assembler dump.
 \end{lstlisting}
+
+\newpage
 \texttt{pwnd()}-Funktion
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 (gdb) disas pwnd
@@ -129,7 +137,11 @@ Aus den disassemblierten Funktionen können folgende Informationen entnommen wer
         Um die \texttt{pwnd()}-Funktion aus der \texttt{pwnd()}-Funktion heraus aufrufen zu können, muss der Befehlszeiger (RIP) innerhalb der \texttt{go()}-Funktion auf die Speicheradresse \texttt{0x40060c} geändert werden. 
 \end{itemize}
 
-Im Folgenden wird das Programm mit dem GDB gestartet, davor wird noch ein Haltepunkte an der Speicheradresse \texttt{0x40060b} gesetzt (siehe letzte Zeile der disassemblierten \texttt{go()} -Funktion) um die Überlegungen verifizieren zu können.
+\newpage
+Im Folgenden wird das Programm mit dem GDB gestartet, davor wird noch ein 
+Haltepunkte an der Speicheradresse \texttt{0x40060b} gesetzt (siehe 
+letzte Zeile der disassemblierten \texttt{go()} -Funktion) um die 
+Überlegungen verifizieren zu können.
         
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 gdb) break *0x40060b
@@ -160,8 +172,13 @@ Die ersten \SI{8}{Byte} entsprechen der hexadezimalen Darstellung der Zeichenfol
 0x7fffffffe990: 0x00007fffffffe9b0      0x000000000040064c
 \end{lstlisting}
 
-Der linke Teil entspricht dem Basepointer (RBP), der rechte Teil entspricht der Rücksprungadresse in die \texttt{main()}-Funktion. Wird diese Adresse mit der Speicheradresse der \texttt{pwnd()}-Funktion überschrieben, so springt das Programm zur Laufzeit in die \texttt{pwnd()}-Funktion und führt diese aus.
+Der linke Teil entspricht dem Basepointer (RBP), der rechte Teil entspricht 
+der Rücksprungadresse in die \texttt{main()}-Funktion. Wird diese Adresse 
+mit der Speicheradresse der \texttt{pwnd()}-Funktion überschrieben, so 
+springt das Programm zur Laufzeit in die \texttt{pwnd()}-Funktion und 
+führt diese aus.
  
+\newpage 
 Mit den folgenden Befehlen wird die \texttt{go()}-Funktion disassembliert, 
 um den Startwert der \texttt{go()}-Funktion festzustellen. Im Anschluss 
 werden die 12-mal \SI{8}{Byte} großen Speicheradressen 
@@ -211,6 +228,7 @@ PWND!
 (gdb)
 \end{lstlisting}
 
+\newpage
 Dabei werden insgesamt \SI{72}{Byte} mit dem Zeichen \texttt{A} 
 überschrieben und \SI{3}{Byte} mit hexadezimalen Werten:
 
@@ -223,7 +241,7 @@ Dabei werden insgesamt \SI{72}{Byte} mit dem Zeichen \texttt{A}
 \textbf{Hinweis:}
 
 Wird zur Nachstellung des Beispiels ein veralteter \texttt{gcc}-Compiler 
-in der Version 3.x\footnote{http://www.trapkit.de/papers/gcc\_stack\_layout\_v1\_20030830.pdf} 
+in der Version 3.x\footnote{\url{http://www.trapkit.de/papers/gcc\_stack\_layout\_v1\_20030830.pdf}} 
 verwendet, ist es möglich, dass dieses Beispiel nicht funktioniert!
 
 \subsection{Maßnahmen zur Behebung von Overflow-Schwachstellen}
@@ -247,8 +265,8 @@ Derivate sind in den folgenden beiden, vom ISO-Komitee herausgegeben,
 Dokumenten zu finden:
 
 \begin{itemize}
-      \item TR 24731-1\footnote{http://www.open-std.org/JTC1/SC22/WG14/www/docs/n1225.pdf}    
-      \item TR 24731-2\footnote{http://www.open-std.org/JTC1/SC22/WG14/www/docs/n1337.pdf}
+      \item TR 24731-1\footnote{\url{http://www.open-std.org/JTC1/SC22/WG14/www/docs/n1225.pdf}}   
+      \item TR 24731-2\footnote{\url{http://www.open-std.org/JTC1/SC22/WG14/www/docs/n1337.pdf}}
 \end{itemize}
 	
 Die beiden Dokumente werden in Foren und Fachkreisen kontrovers 
@@ -289,7 +307,7 @@ produzieren. Dabei sollten "False Negatives" nach Möglichkeit nie
 vorkommen, da diese im Gegensatz zu "False Positives" zu 
 Sicherheitsproblemen führen können.
 
-Im Folgenden soll der frei verfügbare Quellcodescanner RATS\footnote{https://www.fortify.com/downloads2/public/rats-2.3-2.tar.gz} 
+Im Folgenden soll der frei verfügbare Quellcodescanner RATS\footnote{\url{https://www.fortify.com/downloads2/public/rats-2.3-2.tar.gz}} 
 (Rough Auditing Tool for Security) vorgestellt werden. RATS ist in der 
 Lage, C-, C++-, PHP-, Perl- und Python-Quelltext nach 
 sicherheitsrelevanten Fehlern zu untersuchen. Schwerpunktmäßig 
@@ -378,11 +396,11 @@ innerhalb der \texttt{go()}-Funktion zu erkennen.
 
 \minisec{Erweiterte Überprüfung mit Splint}
 
-Splint\footnote{http://www.splint.org/} ist ein statischer Quellcodescanner 
+Splint\footnote{\url{http://www.splint.org/}} ist ein statischer Quellcodescanner 
 der in der Lage ist, eine weitaus detaillierte semantische Analyse als 
 der GNU C Compiler vorzunehmen.
 
-Splint ist in der Lage, sogenannte LINT\footnote{http://en.wikipedia.org/wiki/Lint\_(software)}-Überprüfungen 
+Splint ist in der Lage, sogenannte LINT\footnote{\url{http://en.wikipedia.org/wiki/Lint\_(software)}}-Überprüfungen 
 durchzuführen. Zu diesen Überprüfungen gehört beispielsweise die Suche 
 nach Endlosschleifen, falschen Deklarationen oder ignorierten Rückgabewerten.
 

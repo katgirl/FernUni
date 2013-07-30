@@ -1,8 +1,9 @@
+\fancyhead[L]{} %Kopfzeile links
 \section{Schwachstellen}
 
-In den folgenden Kapiteln werden die Top 4 der am häufigsten\footnote{http://cwe.mitre.org/top25/} 
+In den folgenden Kapiteln werden die Top 4 der am häufigsten\footnote{\url{http://cwe.mitre.org/top25/}} 
 anzutreffenden Schwachstellen aus Sicht des Common Weakness Enumeration (CWE) 
-Projekts\footnote{http://cwe.mitre.org/} vorgestellt. Dabei handelt es sich 
+Projekts\footnote{\url{http://cwe.mitre.org/}} vorgestellt. Dabei handelt es sich 
 gemäß der Statistik des CWE um folgende Schwachstellenkategorien:
 
 \begin{itemize}
@@ -14,7 +15,7 @@ gemäß der Statistik des CWE um folgende Schwachstellenkategorien:
 
 Im Rahmen dieser Ausarbeitung werden die Kategorien SQL-Injection und 
 OS-Command-Injection aufgrund ihrer sehr ähnlichen Funktionsweise 
-unter Injection-Schwachstellen zusammengefasst.
+unter Injection-\\Schwachstellen zusammengefasst.
 Dabei werden mangelnde Maskierung oder eine fehlende Überprüfung von Metazeichen 
 in Benutzereingaben durch Angreifer ausgenutzt.
 
@@ -38,5 +39,7 @@ ausgenutzt.
 Die folgenden Abschnitte erläutern die einzelnen Schwachstellenkategorien 
 und zeigen gängige Maßnahmen zur Erkennung und Behebung der Schwachstellen auf.
 
+\newpage
+\fancyhead[L]{\nouppercase{\leftmark}} %Kopfzeile links
 \input{8632014/web_schwachstellen}
 \input{8632014/bin_schwachstellen}
