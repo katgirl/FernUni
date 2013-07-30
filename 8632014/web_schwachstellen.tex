@@ -20,16 +20,17 @@ Beispielen – für SQL-Injections anfällig. Dabei sind Runtime-basierende
 Sprachen, wie beispielsweise Java oder C\#, aufgrund ihrer  restriktiven 
 Typprüfung tendenziell weniger anfällig für diese Art von Schwachstelle 
 als klassische Scriptsprachen wie PHP oder Perl.
-
 \\
+\mbox{}
 \textbf{Beispiel}
 \\
 Eine Applikation verfügt über eine Suchfunktion, die es einem Anwender 
 ermöglicht, über ein Suchformular nach Benutzer-IDs zu suchen. 
 Die Suche ist über das Suchformular "suche.php" realisiert.
-
 \\
+\mbox{}
 \textbf{Regulärer Aufruf der Anwendung:}
+\mbox{}
 \\
 \textbf{URL:} \texttt{http://www.beliebigedomain.de/suche.php?id=4711}
 \\
@@ -58,7 +59,7 @@ als auch Open-Source-Tools (z.B. Sqlmap\footnote{\url{http://sqlmap.org/}}).
 \newpage
 \minisec{Sqlmap}
 
-Bei Sqlmap handelt es sich um ein Open-Source-Tool um SQL-Injection-Schwachstellen 
+Bei Sqlmap handelt es sich um ein Open-Source-Tool, um SQL-Injection-Schwachstellen 
 automatisiert zu finden und auszunutzen. Bei Sqlmap 
 handelt es sich um eine konsolenbasierte Anwendung. Das kommerzielle 
 Tool Havij bietet dem Anwender hingegen eine grafische Menüführung an.
@@ -77,7 +78,7 @@ sqlmap.py -u "http://www.beispiel.de"
 
 Ist einer der Parameter für SQL-Injection-Angriffe anfällig, werden 
 Informationen zum darunterliegen Betriebssystem, der eingesetzten 
-Datenbank, als auch Details zur der verwendeten Injection-Technik 
+Datenbank sowie Details zur der verwendeten Injection-Technik 
 ausgegeben.
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
@@ -103,7 +104,7 @@ SQL-Injection-Angriff anfällig.
 Bei einer "Blind SQL-Injection" geht aus den Fehlermeldungen des 
 Datenbanksystems nicht hervor, ob eine Anfrage an die Datenbank 
 erfolgreich war oder nicht. Durch die Korrelation von verschiedenen 
-Details, wie z.B. eine provozierte Veränderung der Laufzeiten durch 
+Details, wie z.B. provozierte Veränderungen der Laufzeiten durch 
 einen Angreifer oder kleinste Änderungen innerhalb der 
 DBMS-Fehlermeldung können Rückschlüsse auf den Erfolg einer Anfrage 
 gezogen werden.
@@ -113,7 +114,7 @@ Um beispielsweise den Namen der Datenbank mit Hilfe einer
 (enumerieren) wird im verwendeten Beispiel für jeden richtig geratenen 
 Buchstaben der gesuchten Datenbank-Bezeichnung eine Pause von 5 Sekunden 
 eingelegt. Auf diese Weise kann ein Angreifer feststellen, ob eine 
-Datenbankanfrage erfolgreich war oder nicht bzw. ob der übergebene 
+Datenbankanfrage erfolgreich war oder nicht bzw., ob der übergebene 
 Buchstabe ein Teil der Datenbank-Bezeichnung war. 
 
 Die Enumeration ist jedoch nicht ausschließlich auf den Datenbanknamen 
@@ -159,7 +160,7 @@ Um Anwendungen vor Injection-Schwachstellen zu schützen, empfiehlt es
 sich generell, neben einer serverseitigen Validierung aller 
 Eingabeparameter und deren Prüfung auf kritische Zeichenketten wie 
 beispielsweise Anführungszeichen oder Semikola, bereits im 
-Entwicklungsprozess regelmäßig statische Quellcode-Analysen 
+Entwicklungsprozess regelmäßig eine statische Quellcode-Analysen 
 durchzuführen.
 
 \subsubsection{Maßnahmen zur Behebung SQL-Injection-Schwachstellen}
@@ -195,7 +196,7 @@ zurückzugreifen.
 \minisec{Verwendung von Prepared Statements}
 
 Statt das Escaping der Metazeichen eigenständig oder auf Basis einer 
-Frameworklösung durchzuführen, können auch Prepared Statements verwendet 
+Framework-Lösung durchzuführen, können auch Prepared Statements verwendet 
 werden, um die Injection von unerwünschten Parameterwerten in ein 
 SQL-Statement zu verhindern.
 
@@ -220,7 +221,7 @@ OS-Command-Injection-Schwachstellen vorgestellt.
 \minisec{Escapen von Metazeichen}
 
 Identisch mit den Empfehlungen zur Behebung einer SQL-Injection-Schwachstelle, 
-allerdings betrifft dieses hierbei keine Datenbank-Metazeichen sondern die 
+allerdings betrifft es hierbei keine Datenbank-Metazeichen sondern die 
 Shell-\\Metazeichen.
 
 \newpage
@@ -360,7 +361,7 @@ Bei manchen Systemen (z.B. bei Diskussionsforen) ist ein vollständiges
 HTML-Encoding nicht möglich, da für die Erstellung von Beiträgen 
 möglicherweise HTML-Markup benötigt wird. 
 
-Dabei ist das Vorgehen bei der Verwendung von Tag-Filtern ähnlich der 
+Das Vorgehen bei der Verwendung von Tag-Filtern ist ähnlich der 
 empfohlenen Maßnahmen zur Behebung von Injection-Schwachstellen 
 (siehe Abschnitt \ref{escpace_metazeichen}), bei denen ein Filter auf 
 nicht benötigte Zeichen- und Zeichenketten matchen muss. Es ist 
@@ -376,7 +377,7 @@ Umständen zur Ausführung von JavaScript-Code führen, wie z.B:
 
 An dieser Stelle sei darauf hingewiesen, dass bei der Verwendung von 
 Tag-Filtern (bzw. Blacklist-Filtern) nach Möglichkeit auf eine 
-eigenständige Implementierung verzichtet werden sollte und auf 
+eigenständige Implementierung verzichtet werden und auf 
 "Best-Practice"-Lösungen wie beispielsweise die OWASP 
 ESAPI-Bibliothek zurückgegriffen werden sollte.
 
@@ -384,7 +385,7 @@ Dabei ist weiterhin zu beachten, dass sich die kritischen HTML-Tags
 zwischen den verschiedenen HTML-Versionen unterscheiden können. 
 Durch die Einführung von HTML-5 können beispielsweise Filter, die 
 lediglich auf für HTML-4.x relevante Zeichen- und Zeichenketten 
-matchen umgangen werden. Eine ausführliche Beschreibung der 
+matchen, umgangen werden. Eine ausführliche Beschreibung der 
 verschiedensten Umgehungsmöglichkeiten von HTML-4-Filtern durch 
 HTML-5-Tags sind im HTML-5-Cheat-Sheet\footnote{\url{http://html5sec.org/}} 
 zu finden.
@@ -394,7 +395,7 @@ zu finden.
 Im Regelfall benötigt die eigentliche Anwendungslogik keine Details 
 über die spätere Darstellung der Informationen. Das bedeutet, dass 
 Eingabeparameter auf ihre erwarteten Werte reduziert werden können 
-ohne Zusatzinformationen über beispielsweise ihre Darstellung beinhalten 
+ohne Zusatzinformationen (wie z.B. ihre Darstellung) beinhalten 
 zu müssen.
 
 Aus diesem Grund kann man bereits bei der Entwicklung von Anwendungen 
