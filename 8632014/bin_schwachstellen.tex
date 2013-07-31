@@ -6,9 +6,9 @@ Verwendung von Programmiersprachen, die es einem Entwickler ermöglichen,
 allozierte Speicherbereiche unkontrolliert zu überschreiben.
 
 \par\medskip 
-Als ein typischer Vertreter für eine Programmiersprache die potenziell 
+Als ein typischer Vertreter für eine Programmiersprache, die potenziell 
 für Buffer-Schwachstellen anfällig ist, gilt die Programmiersprache C. 
-Die Programmiersprache ermöglicht es einem Entwickler, nahezu beliebige 
+Diese Programmiersprache ermöglicht es einem Entwickler, nahezu beliebige 
 Speicheradressen zu überschreiben und bietet darüber hinaus noch 
 zahlreiche eigene, native C-Funktionen (z.B. \texttt{strcpy()}), die 
 unabhängig vom Entwickler keinerlei Prüfungen in Hinsicht auf den 
@@ -57,15 +57,15 @@ int main(int argc, char *argv[]) {
 
 \newpage
 Im Folgenden wird das Programm analysiert und versucht, durch eine erfolgreiche Modifikation der Speicheradressen die Funktion \texttt{pwnd()} aufzurufen.
-Um das Programm zu analysieren wird der GNU Debugger\footnote{\url{http://www.gnu.org/software/gdb}} 
+Um das Programm zu analysieren, wird der GNU Debugger\footnote{\url{http://www.gnu.org/software/gdb}} 
 (GDB-Kurzreferenz\footnote{\url{http://beej.us/guide/bggdb}}) verwendet. 
 Für einen ersten Überblick werden die drei Funktionen disassembliert.
 \\
 \\
 \texttt{main()}-Funktion
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
-[florian@audit exploit]$ gdb -q poc
-Reading symbols from /home/florian/exploit/poc...done.
+[user@audit exploit]$ gdb -q poc
+Reading symbols from /home/user/exploit/poc...done.
 (gdb) disas main
 Dump of assembler code for function main:
    0x0000000000400624 <+0>:     push   %rbp
@@ -139,8 +139,8 @@ Aus den disassemblierten Funktionen können folgende Informationen entnommen wer
 
 \newpage
 Im Folgenden wird das Programm mit dem GDB gestartet, davor wird noch ein 
-Haltepunkte an der Speicheradresse \texttt{0x40060b} gesetzt (siehe 
-letzte Zeile der disassemblierten \texttt{go()} -Funktion) um die 
+Haltepunkt an der Speicheradresse \texttt{0x40060b} gesetzt (siehe 
+letzte Zeile der disassemblierten \texttt{go()} -Funktion), um die 
 Überlegungen verifizieren zu können.
         
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
@@ -150,8 +150,9 @@ Breakpoint 6 at 0x40060b: file poc.c, line 13.
 
 String: AAAAAAAA
 
-Breakpoint 6, 0x000000000040060b in go (input=0x7fffffffecdb "AAAAAAAA") at poc.c:13
-13      }
+Breakpoint 6, 0x000000000040060b in go 
+(input=0x7fffffffecdb "AAAAAAAA") at poc.c:13}
+
 (gdb) p &data
 $20 = (char (*)[64]) 0x7fffffffe950
 (gdb) x/12xg 0x7fffffffe950
@@ -164,7 +165,7 @@ $20 = (char (*)[64]) 0x7fffffffe950
 (gdb)
 \end{lstlisting}
 
-Das Programm wird mit 8-mal "A" als Konsolenparameter gestartet. Ist der Haltepunkte erreicht, wird der \SI{64}{Byte} große Speicherbereich der Variablen \texttt{data} gesucht. Im Anschluss werden vom Beginn des Speicherbereichs der Variablen \texttt{data} 12-mal \SI{8}{Byte} große Speicherbereiche dargestellt. 
+Das Programm wird mit 8-mal "A" als Konsolenparameter gestartet. Ist der Haltepunkt erreicht, wird der \SI{64}{Byte} große Speicherbereich der Variablen \texttt{data} gesucht. Im Anschluss werden vom Beginn des Speicherbereichs der Variablen \texttt{data} 12-mal \SI{8}{Byte} große Speicherbereiche dargestellt. 
 
 Die ersten \SI{8}{Byte} entsprechen der hexadezimalen Darstellung der Zeichenfolge \texttt{AAAAAAAA}, die als Übergabeparameter verwendet wurde. Die folgenden 7-mal \SI{8}{Byte} großen Speicherblöcke werden nicht verwendet und beinhalten ausschließlich zufällige Werte. Um die Rücksprungadresse erfolgreich zu modifizieren, sind die folgenden \SI{8}{Byte} bzw. \SI{16}{Byte} relevant:
 
@@ -182,7 +183,7 @@ führt diese aus.
 Mit den folgenden Befehlen wird die \texttt{go()}-Funktion disassembliert, 
 um den Startwert der \texttt{go()}-Funktion festzustellen. Im Anschluss 
 werden die 12-mal \SI{8}{Byte} großen Speicheradressen 
-ausgegeben und 2 Byte der Rücksprungadresse \texttt{0x40064c} modifiziert. 
+ausgegeben und  \SI{2}{Byte} der Rücksprungadresse \texttt{0x40064c} modifiziert. 
 Danach wird das Programm weiter ausgeführt und springt in die 
 \texttt{pwnd()}-Funktion.
 
@@ -217,7 +218,7 @@ PWND!
 \end{lstlisting}
 
 Um den Aufwand einer manuellen Modifikation der Speicheradresse 
-möglichst gering zu halten, kann man den Vorgang mit der \texttt{Perl} 
+möglichst gering zu halten, kann man den Vorgang mit der Script-Sprache \texttt{Perl} 
 automatisieren:
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
@@ -260,7 +261,7 @@ statische Quellcodescanner-Lösungen (z.B. Fortify oder Checkmarx)
 bis hin zu Lösungen, die den Quellcode einer Anwendung sowohl statisch 
 analysieren und zur Ausführung bringen um Laufzeitfehler erkennen zu 
 können (z.B. Seeker)
-Eine Liste von potentiell unsicheren C-Funktionen und deren „sicheren“ 
+Eine Liste von potentiell unsicheren C-Funktionen und deren "sicheren" 
 Derivate sind in den folgenden beiden, vom ISO-Komitee herausgegeben, 
 Dokumenten zu finden:
 
@@ -271,13 +272,13 @@ Dokumenten zu finden:
 	
 Die beiden Dokumente werden in Foren und Fachkreisen kontrovers 
 diskutiert, dennoch ist das Dokument TR 24731-1 in die Entwicklung 
-der Microsoft Standard-C Bibliothek eingeflossen. Weiterhin wurden 
+der Microsoft-Standard-C Bibliothek eingeflossen. Weiterhin wurden 
 Empfehlungen aus den Dokumenten, wie z.B. die Entfernung der im 
 C99-Standard noch enthaltenen \texttt{gets()}-Funktion, im neuen 
 C-Standard (C11) umgesetzt.
 Im Folgenden sollen nur zwei Beispiele für eine lexikalische Suche 
 nach unsicheren Funktionen am Quellcode aus dem vorhergehenden 
-Abschnitt vorgenommen werden:
+Abschnitt hergenommen werden:
 \par\medskip 
 Durch \texttt{grep()} werden sämtliche Zeilen des Quellcodebeispiels 
 ausgegeben, in denen die Funktionen \texttt{strcpy()} und \texttt{gets()} 
@@ -287,7 +288,7 @@ die unsicheren Funktionen durch die empfohlen Funktionsderivate zu
 ersetzen.
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
-[florian@audit exploit]$ grep -nE 'strcpy|gets' *.c
+[user@audit exploit]$ grep -nE 'strcpy|gets' *.c
 poc.c:9:        strcpy(data,input);
 \end{lstlisting}
 
@@ -298,7 +299,7 @@ Ziel entwickelt, die Effizienz der Methode zu verbessern.
 
 Effiziente Quellcodescanner reduzieren die Rate der gefundenen 
 "False-Postives" beispielsweise durch die Verwendung interner 
-Datenbanken, die  potenziell unsichere Quellcodefragmente mit in 
+Datenbanken, die  potenziell unsichere Quellcodefragmente mit den in 
 der Datenbank hinterlegten Codefragmenten abgleichen. Dabei wird 
 weiterhin versucht, den Entwickler durch entsprechende Kommentare zu 
 einer möglicherweise gefundenen Schwachstelle zu unterstützen. Ein 
@@ -307,25 +308,23 @@ produzieren. Dabei sollten "False Negatives" nach Möglichkeit nie
 vorkommen, da diese im Gegensatz zu "False Positives" zu 
 Sicherheitsproblemen führen können.
 
-Im Folgenden soll der frei verfügbare Quellcodescanner RATS\footnote{\url{https://www.fortify.com/downloads2/public/rats-2.3-2.tar.gz}} 
+Nachfolgend soll der frei verfügbare Quellcodescanner RATS\footnote{\url{https://www.fortify.com/downloads2/public/rats-2.3-2.tar.gz}} 
 (Rough Auditing Tool for Security) vorgestellt werden. RATS ist in der 
 Lage, C-, C++-, PHP-, Perl- und Python-Quelltext nach 
 sicherheitsrelevanten Fehlern zu untersuchen. Schwerpunktmäßig 
 berücksichtigt RATS dabei Buffer-Overflow- und Race-Condition-Schwachstellen.
 
-[1] bietet eine detaillierte Einführung in die grundlegenden Prinzipien 
-der sicheren Softwareentwicklung sowie in die Verwendung von RATS.
-
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
-[florian@audit exploit]$ rats -i --resultsonly  *.c
+[user@audit exploit]$ rats -i --resultsonly  *.c
 poc.c:8: High: fixed size local buffer
-Extra care should be taken to ensure that character arrays that are allocated
-on the stack are used safely.  They are prime targets for buffer overflow
-attacks.
+Extra care should be taken to ensure that character arrays that 
+are allocated on the stack are used safely.  They are prime 
+targets for buffer overflow attacks.
 
 poc.c:9: High: strcpy
-Check to be sure that argument 2 passed to this function call will not copy
-more data than can be handled, resulting in a buffer overflow.
+Check to be sure that argument 2 passed to this function 
+call will not copy more data than can be handled, resulting 
+in a buffer overflow.
 \end{lstlisting}
 
 Bei der Ausgabe von RATS wird ein Nutzer gleich zu Beginn auf die 
@@ -350,15 +349,15 @@ innerhalb eines Programms zuzulassen.
 
 \minisec{Grundlegende Überprüfungen mit dem Compiler}
 
-Bereits ein Compiler verfügt bereits meist über grundlegende Techniken, 
+Ein Compiler verfügt bereits meist über grundlegende Techniken, 
 um mindestens eine lexikalische und zusätzlich eine semantische Analyse 
 des Quellcodes durchzuführen. Der GNU C Compiler verfügt über verschiedene 
 Optionen, die eine Fehlervermeidung oder eine Fehlersuche unterstützen.
 
 Wird bei Aufruf des GNU C Compilers die Option \texttt{–Wall} angegeben, 
 veranlasst dies den Compiler dazu, eine Überprüfung des Quelltextes 
-während des Kompilierens durchzuführen. Um die Meldungen des Compiler 
-offensichtlich zu gestalten, wird die \texttt{main()}-Funktion durch 
+während des Kompilierens durchzuführen. Um die Meldungen des Compilers 
+offensichtlicher zu gestalten, wird die \texttt{main()}-Funktion durch 
 die folgenden Codezeilen ergänzt:
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
@@ -371,15 +370,17 @@ int main(int argc, char *argv[]) {
 }
 \end{lstlisting}
 
-Wird der Quellcode jetzt mit der – Wall-Funktion kompiliert erhält man 
+Wird der Quellcode jetzt mit der – Wall-Funktion kompiliert, erhält man 
 folgende Compiler-Warnungen:
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
-[florian@audit exploit]$ gcc -Wall poc.c -o poc
+[user@audit exploit]$ gcc -Wall poc.c -o poc
 poc.c: In function main:
-poc.c:29:2: warning: gets is deprecated (declared at /usr/include/stdio.h:638) [-Wdeprecated-declarations]
+poc.c:29:2: warning: gets is deprecated 
+(declared at /usr/include/stdio.h:638) [-Wdeprecated-declarations]
   gets(array);
-poc.c:31:1: warning: control reaches end of non-void function [-Wreturn-type]
+poc.c:31:1: warning: control reaches end of non-void 
+function [-Wreturn-type]
 }
 \end{lstlisting}
 
@@ -396,12 +397,12 @@ innerhalb der \texttt{go()}-Funktion zu erkennen.
 
 \minisec{Erweiterte Überprüfung mit Splint}
 
-Splint\footnote{\url{http://www.splint.org/}} ist ein statischer Quellcodescanner 
+Splint\footnote{\url{http://www.splint.org/}} ist ein statischer Quellcodescanner, 
 der in der Lage ist, eine weitaus detaillierte semantische Analyse als 
 der GNU C Compiler vorzunehmen.
 
-Splint ist in der Lage, sogenannte LINT\footnote{\url{http://en.wikipedia.org/wiki/Lint\_(software)}}-Überprüfungen 
-durchzuführen. Zu diesen Überprüfungen gehört beispielsweise die Suche 
+Splint ist imstande, sogenannte LINT\footnote{\url{http://en.wikipedia.org/wiki/Lint\_(software)}}-Überprüfungen 
+durchzuführen. Zu diesen Überprüfungen gehören beispielsweise die Suche 
 nach Endlosschleifen, falschen Deklarationen oder ignorierten Rückgabewerten.
 
 Im folgenden Beispiel wird der Beispielquelltext durch die Angabe des 
@@ -410,7 +411,7 @@ untersucht, die aufgrund eines schreibenden Speicherzugriffs zu einem
 Buffer-Overflow führen können.
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
-[florian@audit exploit]$ splint +bounds-write poc.c
+[user@audit exploit]$ splint +bounds-write poc.c
 Splint 3.1.2 --- 14 Sep 2011
 
 poc.c: (in function go)
@@ -418,15 +419,18 @@ poc.c:9:2: Possible out-of-bounds store: strcpy(data, input)
     Unable to resolve constraint:
     requires maxRead(input @ poc.c:9:14) <= 63
      needed to satisfy precondition:
-    requires maxSet(data @ poc.c:9:9) >= maxRead(input @ poc.c:9:14)
-     derived from strcpy precondition: requires maxSet(<parameter 1>) >=
+    requires maxSet(data @ poc.c:9:9) >= maxRead
+    (input @ poc.c:9:14)
+     derived from strcpy precondition: requires maxSet
+     (<parameter 1>) >=
     maxRead(<parameter 2>)
-  A memory write may write to an address beyond the allocated buffer. (Use
-  -boundswrite to inhibit warning)
+  A memory write may write to an address beyond the 
+  allocated buffer. (Use -boundswrite to inhibit warning)
 poc.c: (in function main)
 poc.c:25:2: Return value (type int) ignored: go(argv[1])
-  Result returned by function call is not used. If this is intended, can cast
-  result to (void) to eliminate message. (Use -retvalint to inhibit warning)
+  Result returned by function call is not used. If this is 
+  intended, can cast result to (void) to eliminate message. 
+  (Use -retvalint to inhibit warning)
   [...]
 \end{lstlisting}
 
@@ -449,8 +453,7 @@ ausfindig zu machen.
 
 Ein mögliches Beispiel für eine potenzielle Overflow-Schwachstelle, die 
 erst während der Laufzeit eines Programmes auftreten kann, ist der 
-Aufruf der C-Funktion \texttt{malloc()}, die erst zur Laufzeit eines 
-Programms Speicher im Heap alloziert.
+Aufruf der C-Funktion \texttt{malloc()}, die Speicher im Heap alloziert.
 
 Ein typisches Tool zur Programmanalyse zur Laufzeit ist ein Debugger. 
 Mit einem Debugger kann man Programme zeilenweise abarbeiten und dabei 
@@ -472,7 +475,7 @@ virtuellen Umgebung ausgeführt.
 Vagrind übersetzt das Programm zu diesem Zweck in einen 
 plattformunabhängigen Byte-Code, in den sogenannten Vex IR. Nach der 
 Konvertierung des Programms in den Byte-Code können die verschiedenen 
-Valgrind-Tools auf das zu analysierenden Programm angewendet werden.
+Valgrind-Tools auf das zu analysierende Programm angewendet werden.
 
 Die Konvertierung des nativen Programms nach Vex IR reduziert die 
 Ausführungsgeschwindigkeit eines Programmes um ein Vielfaches, 
@@ -499,7 +502,8 @@ es, wie aus den vorhergehen Beispielen bereits bekannt, zu einem
 Buffer-Overflow:
 
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
-valgrind --tool=memcheck --leak-check=full ./poc `perl -e 'print "A"x84'`
+valgrind --tool=memcheck --leak-check=full 
+./poc `perl -e 'print "A"x84'`
 \end{lstlisting}
 
 Valgrind überprüft nun das Programm \texttt{poc} zur Laufzeit und 
@@ -508,20 +512,29 @@ generiert folgende Ausgabe:
 \begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
 [...]
 ==10902== Invalid write of size 1
-==10902==    at 0x4C2CBB2: __GI_strcpy (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==10902==    by 0x40069A: go (poc2.c:14)
-==10902==    by 0x400703: main (poc2.c:31)
-==10902==  Address 0x51e00e4 is 20 bytes after a block of size 64 alloc'd
-==10902==    at 0x4C2C04B: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==10902== at 0x4C2CBB2: __GI_strcpy 
+          (in /usr/lib/valgrind/vgpreload_memcheck- 
+          amd64-linux.so)
+==10902== by 0x40069A: go (poc2.c:14)
+==10902== by 0x400703: main (poc2.c:31)
+==10902== Address 0x51e00e4 is 20 bytes after a block 
+          of size 64 alloc'd
+==10902== at 0x4C2C04B: malloc 
+          (in /usr/lib/valgrind/vgpreload_memcheck- 
+          amd64-linux.so)
 [...]
 ==10902== HEAP SUMMARY:
-==10902==     in use at exit: 8 bytes in 1 blocks
-==10902==   total heap usage: 2 allocs, 1 frees, 72 bytes allocated
+==10902== in use at exit: 8 bytes in 1 blocks
+==10902== total heap usage: 2 allocs, 1 frees, 72 bytes 
+          allocated
 ==10902==
-==10902== 8 bytes in 1 blocks are definitely lost in loss record 1 of 1
-==10902==    at 0x4C2C04B: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
-==10902==    by 0x400675: go (poc2.c:9)
-==10902==    by 0x400703: main (poc2.c:31)
+==10902== 8 bytes in 1 blocks are definitely lost in loss 
+		  record 1 of 1
+==10902== at 0x4C2C04B: malloc 
+          (in /usr/lib/valgrind/vgpreload_memcheck-
+          amd64-linux.so)
+==10902== by 0x400675: go (poc2.c:9)
+==10902== by 0x400703: main (poc2.c:31)
 [...]
 \end{lstlisting}
 
