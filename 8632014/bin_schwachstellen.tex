@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
 \newpage
 Im Folgenden wird das Programm analysiert und versucht, durch eine erfolgreiche Modifikation der Speicheradressen die Funktion \texttt{pwnd()} aufzurufen.
 Um das Programm zu analysieren, wird der GNU Debugger\footnote{\url{http://www.gnu.org/software/gdb}} 
-(GDB-Kurzreferenz\footnote{\url{http://beej.us/guide/bggdb}}) verwendet. 
+(GDB-Kurzreferenz \cite{hall_beejs}). %\footnote{\url{http://beej.us/guide/bggdb}}) verwendet. 
 Für einen ersten Überblick werden die drei Funktionen disassembliert.
 \\
 \\
@@ -242,7 +242,7 @@ Dabei werden insgesamt \SI{72}{Byte} mit dem Zeichen \texttt{A}
 \textbf{Hinweis:}
 
 Wird zur Nachstellung des Beispiels ein veralteter \texttt{gcc}-Compiler 
-in der Version 3.x\footnote{\url{http://www.trapkit.de/papers/gcc\_stack\_layout\_v1\_20030830.pdf}} 
+in der Version 3.x (vgl. \cite{stack_layout}) %\footnote{\url{http://www.trapkit.de/papers/gcc\_stack\_layout\_v1\_20030830.pdf}} 
 verwendet, ist es möglich, dass dieses Beispiel nicht funktioniert!
 
 \subsection{Maßnahmen zur Behebung von Overflow-Schwachstellen}
@@ -266,8 +266,8 @@ Derivate sind in den folgenden beiden, vom ISO-Komitee herausgegeben,
 Dokumenten zu finden:
 
 \begin{itemize}
-      \item TR 24731-1\footnote{\url{http://www.open-std.org/JTC1/SC22/WG14/www/docs/n1225.pdf}}   
-      \item TR 24731-2\footnote{\url{http://www.open-std.org/JTC1/SC22/WG14/www/docs/n1337.pdf}}
+      \item TR 24731-1 \cite{iso_tr_24731_1} %\footnote{\url{http://www.open-std.org/JTC1/SC22/WG14/www/docs/n1225.pdf}}   
+      \item TR 24731-2 \cite{iso_wdtr_24731_2} %\footnote{\url{http://www.open-std.org/JTC1/SC22/WG14/www/docs/n1337.pdf}}
 \end{itemize}
 	
 Die beiden Dokumente werden in Foren und Fachkreisen kontrovers 
@@ -401,7 +401,7 @@ Splint\footnote{\url{http://www.splint.org/}} ist ein statischer Quellcodescanne
 der in der Lage ist, eine weitaus detaillierte semantische Analyse als 
 der GNU C Compiler vorzunehmen.
 
-Splint ist imstande, sogenannte LINT\footnote{\url{http://en.wikipedia.org/wiki/Lint\_(software)}}-Überprüfungen 
+Splint ist imstande, sogenannte LINT \cite{lint_software} %\footnote{\url{http://en.wikipedia.org/wiki/Lint\_(software)}}-Überprüfungen 
 durchzuführen. Zu diesen Überprüfungen gehören beispielsweise die Suche 
 nach Endlosschleifen, falschen Deklarationen oder ignorierten Rückgabewerten.
 
