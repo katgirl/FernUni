@@ -1,6 +1,9 @@
 % allgem. Dokumentenformat
 \documentclass[a4paper,12pt,headsepline]{scrartcl}
 
+\usepackage{cite}
+
+
 % weitere Pakete
 % Grafiken aus PNG Dateien einbinden
 \usepackage{graphicx}
@@ -206,16 +209,20 @@
 \input{fazit}
 
 
-%~ \onecolumn
-%~ % einfacher Zeilenabstand
-%~ \singlespacing
-%~ % Literaturliste soll im Inhaltsverzeichnis auftauchen
+\onecolumn
+% einfacher Zeilenabstand
+\singlespacing
+% Literaturliste soll im Inhaltsverzeichnis auftauchen
 \newpage
+\thispagestyle{fancy} 
+\fancyhead[L]{\nouppercase{\leftmark}} %Kopfzeile links
+
 \addcontentsline{toc}{section}{Literaturverzeichnis}
 %~ % Literaturverzeichnis anzeigen
 \renewcommand\refname{Literaturverzeichnis}
 %\bibliographystyle{alpha}
 \bibliography{literatur/literatur}
+
 %~ 
 %~ % Abstract
 %~ \newpage
